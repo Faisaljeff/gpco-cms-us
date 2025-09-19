@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAX - GPCO CMS US</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;">GPCO CMS US</a></h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="#" class="nav-link active">GAX</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a> / <span>GAX</span>
+                </div>
+                <h1 class="page-title">Global Application Exchange</h1>
+                <p class="page-subtitle">Manage global application integrations and data exchange</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <div class="system-status">
+                    <div class="status-card">
+                        <div class="status-indicator online"></div>
+                        <div class="status-content">
+                            <h3>System Status</h3>
+                            <p>All systems operational</p>
+                        </div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-indicator online"></div>
+                        <div class="status-content">
+                            <h3>API Gateway</h3>
+                            <p>99.9% uptime</p>
+                        </div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-indicator warning"></div>
+                        <div class="status-content">
+                            <h3>Data Sync</h3>
+                            <p>Minor delays detected</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="main-content">
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-network-wired"></i> Active Integrations</h2>
+                                <button class="btn-primary">
+                                    <i class="fas fa-plus"></i> Add Integration
+                                </button>
+                            </div>
+                            <div class="integration-grid">
+                                <div class="integration-card">
+                                    <div class="integration-header">
+                                        <div class="integration-icon">
+                                            <i class="fas fa-database"></i>
+                                        </div>
+                                        <div class="integration-info">
+                                            <h4>Customer Database</h4>
+                                            <span class="integration-type">Database</span>
+                                        </div>
+                                        <div class="integration-status online">
+                                            <i class="fas fa-circle"></i>
+                                        </div>
+                                    </div>
+                                    <div class="integration-stats">
+                                        <div class="stat">
+                                            <span class="stat-label">Last Sync</span>
+                                            <span class="stat-value">2 min ago</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">Records</span>
+                                            <span class="stat-value">1.2M</span>
+                                        </div>
+                                    </div>
+                                    <div class="integration-actions">
+                                        <button class="btn-icon" title="Configure">
+                                            <i class="fas fa-cog"></i>
+                                        </button>
+                                        <button class="btn-icon" title="Monitor">
+                                            <i class="fas fa-chart-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="integration-card">
+                                    <div class="integration-header">
+                                        <div class="integration-icon">
+                                            <i class="fas fa-credit-card"></i>
+                                        </div>
+                                        <div class="integration-info">
+                                            <h4>Payment Gateway</h4>
+                                            <span class="integration-type">API</span>
+                                        </div>
+                                        <div class="integration-status online">
+                                            <i class="fas fa-circle"></i>
+                                        </div>
+                                    </div>
+                                    <div class="integration-stats">
+                                        <div class="stat">
+                                            <span class="stat-label">Last Sync</span>
+                                            <span class="stat-value">1 min ago</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">Transactions</span>
+                                            <span class="stat-value">45K</span>
+                                        </div>
+                                    </div>
+                                    <div class="integration-actions">
+                                        <button class="btn-icon" title="Configure">
+                                            <i class="fas fa-cog"></i>
+                                        </button>
+                                        <button class="btn-icon" title="Monitor">
+                                            <i class="fas fa-chart-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="integration-card">
+                                    <div class="integration-header">
+                                        <div class="integration-icon">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                        <div class="integration-info">
+                                            <h4>Email Service</h4>
+                                            <span class="integration-type">Service</span>
+                                        </div>
+                                        <div class="integration-status warning">
+                                            <i class="fas fa-circle"></i>
+                                        </div>
+                                    </div>
+                                    <div class="integration-stats">
+                                        <div class="stat">
+                                            <span class="stat-label">Last Sync</span>
+                                            <span class="stat-value">5 min ago</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">Emails Sent</span>
+                                            <span class="stat-value">12.5K</span>
+                                        </div>
+                                    </div>
+                                    <div class="integration-actions">
+                                        <button class="btn-icon" title="Configure">
+                                            <i class="fas fa-cog"></i>
+                                        </button>
+                                        <button class="btn-icon" title="Monitor">
+                                            <i class="fas fa-chart-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="integration-card">
+                                    <div class="integration-header">
+                                        <div class="integration-icon">
+                                            <i class="fas fa-cloud"></i>
+                                        </div>
+                                        <div class="integration-info">
+                                            <h4>Cloud Storage</h4>
+                                            <span class="integration-type">Storage</span>
+                                        </div>
+                                        <div class="integration-status online">
+                                            <i class="fas fa-circle"></i>
+                                        </div>
+                                    </div>
+                                    <div class="integration-stats">
+                                        <div class="stat">
+                                            <span class="stat-label">Last Sync</span>
+                                            <span class="stat-value">30 sec ago</span>
+                                        </div>
+                                        <div class="stat">
+                                            <span class="stat-label">Storage Used</span>
+                                            <span class="stat-value">2.8TB</span>
+                                        </div>
+                                    </div>
+                                    <div class="integration-actions">
+                                        <button class="btn-icon" title="Configure">
+                                            <i class="fas fa-cog"></i>
+                                        </button>
+                                        <button class="btn-icon" title="Monitor">
+                                            <i class="fas fa-chart-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-exchange-alt"></i> Data Flow Monitor</h2>
+                            </div>
+                            <div class="data-flow">
+                                <div class="flow-diagram">
+                                    <div class="flow-node source">
+                                        <i class="fas fa-server"></i>
+                                        <span>Source Systems</span>
+                                    </div>
+                                    <div class="flow-arrow">
+                                        <i class="fas fa-arrow-right"></i>
+                                        <span class="flow-rate">1.2K/sec</span>
+                                    </div>
+                                    <div class="flow-node processor">
+                                        <i class="fas fa-cogs"></i>
+                                        <span>GAX Processor</span>
+                                    </div>
+                                    <div class="flow-arrow">
+                                        <i class="fas fa-arrow-right"></i>
+                                        <span class="flow-rate">1.1K/sec</span>
+                                    </div>
+                                    <div class="flow-node destination">
+                                        <i class="fas fa-database"></i>
+                                        <span>Target Systems</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="sidebar-card">
+                            <h3><i class="fas fa-chart-pie"></i> Integration Health</h3>
+                            <div class="health-metrics">
+                                <div class="health-item">
+                                    <div class="health-label">Overall Health</div>
+                                    <div class="health-score excellent">95%</div>
+                                </div>
+                                <div class="health-item">
+                                    <div class="health-label">Response Time</div>
+                                    <div class="health-score good">120ms</div>
+                                </div>
+                                <div class="health-item">
+                                    <div class="health-label">Error Rate</div>
+                                    <div class="health-score excellent">0.02%</div>
+                                </div>
+                                <div class="health-item">
+                                    <div class="health-label">Throughput</div>
+                                    <div class="health-score good">1.2K/sec</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card">
+                            <h3><i class="fas fa-bell"></i> Recent Alerts</h3>
+                            <div class="alert-list">
+                                <div class="alert-item warning">
+                                    <div class="alert-icon">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="alert-content">
+                                        <p>Email service latency increased</p>
+                                        <span class="alert-time">5 min ago</span>
+                                    </div>
+                                </div>
+                                <div class="alert-item info">
+                                    <div class="alert-icon">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="alert-content">
+                                        <p>Scheduled maintenance completed</p>
+                                        <span class="alert-time">2 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="alert-item success">
+                                    <div class="alert-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="alert-content">
+                                        <p>New integration deployed</p>
+                                        <span class="alert-time">1 day ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card">
+                            <h3><i class="fas fa-tools"></i> Quick Actions</h3>
+                            <div class="action-buttons">
+                                <button class="action-btn">
+                                    <i class="fas fa-sync"></i>
+                                    Force Sync All
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-pause"></i>
+                                    Pause Processing
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-download"></i>
+                                    Export Logs
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-cog"></i>
+                                    System Settings
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 GPCO CMS US. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="gax.js"></script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Assignment - GPCO CMS US</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;">GPCO CMS US</a></h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="#" class="nav-link active">Task Assignment</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a> / <span>Task Assignment</span>
+                </div>
+                <h1 class="page-title">Task Assignment Management</h1>
+                <p class="page-subtitle">Assign and track tasks across teams efficiently</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <div class="task-filters">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="all">All Tasks</button>
+                        <button class="filter-btn" data-filter="assigned">Assigned</button>
+                        <button class="filter-btn" data-filter="in-progress">In Progress</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                    </div>
+                    <button class="btn-primary" onclick="showAddTaskModal()">
+                        <i class="fas fa-plus"></i> Assign New Task
+                    </button>
+                </div>
+
+                <div class="content-grid">
+                    <div class="main-content">
+                        <div class="task-board">
+                            <div class="task-column">
+                                <div class="column-header">
+                                    <h3><i class="fas fa-inbox"></i> To Do</h3>
+                                    <span class="task-count">3</span>
+                                </div>
+                                <div class="task-list">
+                                    <div class="task-card" data-status="assigned">
+                                        <div class="task-header">
+                                            <h4>Update Documentation</h4>
+                                            <span class="priority high">High</span>
+                                        </div>
+                                        <p class="task-description">Update the user manual with new features</p>
+                                        <div class="task-meta">
+                                            <div class="assignee">
+                                                <img src="https://via.placeholder.com/24" alt="User" class="avatar">
+                                                <span>John Doe</span>
+                                            </div>
+                                            <span class="due-date">Due: Jan 20</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="task-card" data-status="assigned">
+                                        <div class="task-header">
+                                            <h4>Code Review</h4>
+                                            <span class="priority medium">Medium</span>
+                                        </div>
+                                        <p class="task-description">Review pull request #123</p>
+                                        <div class="task-meta">
+                                            <div class="assignee">
+                                                <img src="https://via.placeholder.com/24" alt="User" class="avatar">
+                                                <span>Jane Smith</span>
+                                            </div>
+                                            <span class="due-date">Due: Jan 18</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="task-card" data-status="assigned">
+                                        <div class="task-header">
+                                            <h4>Database Backup</h4>
+                                            <span class="priority low">Low</span>
+                                        </div>
+                                        <p class="task-description">Perform weekly database backup</p>
+                                        <div class="task-meta">
+                                            <div class="assignee">
+                                                <img src="https://via.placeholder.com/24" alt="User" class="avatar">
+                                                <span>Mike Johnson</span>
+                                            </div>
+                                            <span class="due-date">Due: Jan 22</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="task-column">
+                                <div class="column-header">
+                                    <h3><i class="fas fa-play"></i> In Progress</h3>
+                                    <span class="task-count">2</span>
+                                </div>
+                                <div class="task-list">
+                                    <div class="task-card" data-status="in-progress">
+                                        <div class="task-header">
+                                            <h4>API Integration</h4>
+                                            <span class="priority high">High</span>
+                                        </div>
+                                        <p class="task-description">Integrate third-party payment API</p>
+                                        <div class="task-progress">
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width: 65%"></div>
+                                            </div>
+                                            <span class="progress-text">65%</span>
+                                        </div>
+                                        <div class="task-meta">
+                                            <div class="assignee">
+                                                <img src="https://via.placeholder.com/24" alt="User" class="avatar">
+                                                <span>Sarah Wilson</span>
+                                            </div>
+                                            <span class="due-date">Due: Jan 25</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="task-card" data-status="in-progress">
+                                        <div class="task-header">
+                                            <h4>UI Testing</h4>
+                                            <span class="priority medium">Medium</span>
+                                        </div>
+                                        <p class="task-description">Test new user interface components</p>
+                                        <div class="task-progress">
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width: 30%"></div>
+                                            </div>
+                                            <span class="progress-text">30%</span>
+                                        </div>
+                                        <div class="task-meta">
+                                            <div class="assignee">
+                                                <img src="https://via.placeholder.com/24" alt="User" class="avatar">
+                                                <span>Alex Brown</span>
+                                            </div>
+                                            <span class="due-date">Due: Jan 19</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="task-column">
+                                <div class="column-header">
+                                    <h3><i class="fas fa-check"></i> Completed</h3>
+                                    <span class="task-count">4</span>
+                                </div>
+                                <div class="task-list">
+                                    <div class="task-card" data-status="completed">
+                                        <div class="task-header">
+                                            <h4>Security Audit</h4>
+                                            <span class="priority high">High</span>
+                                        </div>
+                                        <p class="task-description">Complete security vulnerability assessment</p>
+                                        <div class="task-meta">
+                                            <div class="assignee">
+                                                <img src="https://via.placeholder.com/24" alt="User" class="avatar">
+                                                <span>David Lee</span>
+                                            </div>
+                                            <span class="completed-date">Completed: Jan 15</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="sidebar-card">
+                            <h3><i class="fas fa-users"></i> Team Performance</h3>
+                            <div class="team-stats">
+                                <div class="team-member">
+                                    <div class="member-info">
+                                        <img src="https://via.placeholder.com/32" alt="User" class="avatar">
+                                        <div>
+                                            <span class="member-name">John Doe</span>
+                                            <span class="member-role">Developer</span>
+                                        </div>
+                                    </div>
+                                    <div class="member-tasks">
+                                        <span class="task-badge">3 Active</span>
+                                    </div>
+                                </div>
+                                <div class="team-member">
+                                    <div class="member-info">
+                                        <img src="https://via.placeholder.com/32" alt="User" class="avatar">
+                                        <div>
+                                            <span class="member-name">Jane Smith</span>
+                                            <span class="member-role">Designer</span>
+                                        </div>
+                                    </div>
+                                    <div class="member-tasks">
+                                        <span class="task-badge">2 Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card">
+                            <h3><i class="fas fa-chart-bar"></i> Task Statistics</h3>
+                            <div class="stats">
+                                <div class="stat-item">
+                                    <span class="stat-number">9</span>
+                                    <span class="stat-label">Total Tasks</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">3</span>
+                                    <span class="stat-label">To Do</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">2</span>
+                                    <span class="stat-label">In Progress</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">4</span>
+                                    <span class="stat-label">Completed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 GPCO CMS US. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="task-assignment.js"></script>
+</body>
+</html>

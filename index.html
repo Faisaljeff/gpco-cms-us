@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPCO CMS US - Content Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>GPCO CMS US</h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Welcome to GPCO CMS US</h1>
+                    <p class="hero-subtitle">Your comprehensive content management system for streamlined operations</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard">
+            <div class="container">
+                <div class="dashboard-grid">
+                    <div class="card" onclick="navigateTo('schedule-file.html')">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3 class="card-title">Schedule File</h3>
+                        <p class="card-description">Manage and organize your scheduling operations</p>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="navigateTo('task-assignment.html')">
+                        <div class="card-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3 class="card-title">Task Assignment</h3>
+                        <p class="card-description">Assign and track tasks across teams</p>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="navigateTo('pdi.html')">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="card-title">P&DI</h3>
+                        <p class="card-description">Performance and Development Insights</p>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="navigateTo('gax.html')">
+                        <div class="card-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3 class="card-title">GAX</h3>
+                        <p class="card-description">Global Application Exchange</p>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="card sop-card">
+                        <div class="card-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="card-title">Standard Operating Procedures</h3>
+                        <p class="card-description">Access SOPs for different regions</p>
+                        <div class="sop-buttons">
+                            <button class="sop-btn" onclick="navigateTo('sop-delhi.html')">Delhi</button>
+                            <button class="sop-btn" onclick="navigateTo('sop-manila.html')">Manila</button>
+                            <button class="sop-btn" onclick="navigateTo('sop-us.html')">US</button>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="navigateTo('important-links.html')">
+                        <div class="card-icon">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <h3 class="card-title">Important Links</h3>
+                        <p class="card-description">Quick access to essential resources</p>
+                        <div class="card-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 GPCO CMS US. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

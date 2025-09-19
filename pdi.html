@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P&DI - GPCO CMS US</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;">GPCO CMS US</a></h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="#" class="nav-link active">P&DI</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a> / <span>P&DI</span>
+                </div>
+                <h1 class="page-title">Performance & Development Insights</h1>
+                <p class="page-subtitle">Monitor performance metrics and development progress</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Performance Score</h3>
+                            <div class="metric-value">87%</div>
+                            <div class="metric-change positive">
+                                <i class="fas fa-arrow-up"></i> +5% from last month
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Team Productivity</h3>
+                            <div class="metric-value">92%</div>
+                            <div class="metric-change positive">
+                                <i class="fas fa-arrow-up"></i> +3% from last month
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Avg. Response Time</h3>
+                            <div class="metric-value">2.3s</div>
+                            <div class="metric-change negative">
+                                <i class="fas fa-arrow-down"></i> +0.2s from last month
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Bug Resolution</h3>
+                            <div class="metric-value">95%</div>
+                            <div class="metric-change positive">
+                                <i class="fas fa-arrow-up"></i> +2% from last month
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="main-content">
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-chart-area"></i> Performance Trends</h2>
+                                <div class="chart-controls">
+                                    <select class="chart-period">
+                                        <option value="7d">Last 7 days</option>
+                                        <option value="30d" selected>Last 30 days</option>
+                                        <option value="90d">Last 90 days</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="performanceChart" width="800" height="400"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-list-alt"></i> Development Milestones</h2>
+                            </div>
+                            <div class="milestone-list">
+                                <div class="milestone-item completed">
+                                    <div class="milestone-status">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="milestone-content">
+                                        <h4>Q1 Security Audit</h4>
+                                        <p>Completed comprehensive security assessment</p>
+                                        <span class="milestone-date">Completed: Jan 15, 2024</span>
+                                    </div>
+                                </div>
+
+                                <div class="milestone-item in-progress">
+                                    <div class="milestone-status">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="milestone-content">
+                                        <h4>API Integration Phase 2</h4>
+                                        <p>Implementing advanced API features</p>
+                                        <span class="milestone-date">Due: Jan 30, 2024</span>
+                                        <div class="milestone-progress">
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width: 70%"></div>
+                                            </div>
+                                            <span class="progress-text">70%</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="milestone-item pending">
+                                    <div class="milestone-status">
+                                        <i class="fas fa-circle"></i>
+                                    </div>
+                                    <div class="milestone-content">
+                                        <h4>Mobile App Launch</h4>
+                                        <p>Deploy mobile application to app stores</p>
+                                        <span class="milestone-date">Planned: Feb 15, 2024</span>
+                                    </div>
+                                </div>
+
+                                <div class="milestone-item pending">
+                                    <div class="milestone-status">
+                                        <i class="fas fa-circle"></i>
+                                    </div>
+                                    <div class="milestone-content">
+                                        <h4>Performance Optimization</h4>
+                                        <p>Optimize system performance and scalability</p>
+                                        <span class="milestone-date">Planned: Mar 1, 2024</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="sidebar-card">
+                            <h3><i class="fas fa-trophy"></i> Key Achievements</h3>
+                            <div class="achievement-list">
+                                <div class="achievement-item">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-medal"></i>
+                                    </div>
+                                    <div class="achievement-content">
+                                        <h4>Zero Downtime</h4>
+                                        <p>30 days of 100% uptime</p>
+                                    </div>
+                                </div>
+                                <div class="achievement-item">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-rocket"></i>
+                                    </div>
+                                    <div class="achievement-content">
+                                        <h4>Performance Boost</h4>
+                                        <p>25% improvement in load times</p>
+                                    </div>
+                                </div>
+                                <div class="achievement-item">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="achievement-content">
+                                        <h4>Security Excellence</h4>
+                                        <p>Passed all security audits</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Action Items</h3>
+                            <div class="action-list">
+                                <div class="action-item high">
+                                    <div class="action-priority">High</div>
+                                    <div class="action-content">
+                                        <p>Optimize database queries</p>
+                                        <span class="action-due">Due: Jan 20</span>
+                                    </div>
+                                </div>
+                                <div class="action-item medium">
+                                    <div class="action-priority">Medium</div>
+                                    <div class="action-content">
+                                        <p>Update documentation</p>
+                                        <span class="action-due">Due: Jan 25</span>
+                                    </div>
+                                </div>
+                                <div class="action-item low">
+                                    <div class="action-priority">Low</div>
+                                    <div class="action-content">
+                                        <p>Review code standards</p>
+                                        <span class="action-due">Due: Feb 1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-card">
+                            <h3><i class="fas fa-download"></i> Reports</h3>
+                            <div class="report-list">
+                                <button class="report-btn">
+                                    <i class="fas fa-file-pdf"></i>
+                                    Monthly Performance Report
+                                </button>
+                                <button class="report-btn">
+                                    <i class="fas fa-file-excel"></i>
+                                    Development Metrics Export
+                                </button>
+                                <button class="report-btn">
+                                    <i class="fas fa-file-chart-line"></i>
+                                    Trend Analysis Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 GPCO CMS US. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="pdi.js"></script>
+</body>
+</html>

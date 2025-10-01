@@ -9,7 +9,9 @@ function navigateTo(page) {
         'sop-delhi.html',
         'sop-manila.html',
         'sop-us.html',
-        'important-links.html'
+        'important-links.html',
+        'break-structure.html',
+        'gocm-processes.html'
     ];
     
     if (pages.includes(page)) {

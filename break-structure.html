@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Break Structure - GPCO CMS US</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .site-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .site-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+        }
+
+        .site-flag {
+            width: 30px;
+            height: 20px;
+            margin-right: 15px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .flag-us { background: linear-gradient(to bottom, #b22234 0%, #b22234 50%, #ffffff 50%, #ffffff 100%); }
+        .flag-india { background: linear-gradient(to bottom, #ff9933 0%, #ff9933 33%, #ffffff 33%, #ffffff 66%, #138808 66%, #138808 100%); }
+        .flag-philippines { background: linear-gradient(to bottom, #0038a8 0%, #0038a8 50%, #ce1126 50%, #ce1126 100%); }
+
+        .break-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .break-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            border: 1px solid #ddd;
+        }
+
+        .break-table td {
+            padding: 10px 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+            background: #f8f9fa;
+        }
+
+        .break-table tr:nth-child(even) td {
+            background: #e9ecef;
+        }
+
+        .break-table tr:hover td {
+            background: #d1ecf1;
+        }
+
+        .table-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .overtime-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px dashed #bdc3c7;
+        }
+
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #856404;
+        }
+
+        .tip-section {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .tip-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .site-title {
+                font-size: 1.5rem;
+            }
+            
+            .break-table {
+                font-size: 0.8rem;
+            }
+            
+            .break-table th,
+            .break-table td {
+                padding: 8px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← Back to Dashboard</a>
+        
+        <div class="header">
+            <h1>Break Structure Guidelines</h1>
+            <p>Site-wise break allocation based on shift duration and overtime policies</p>
+        </div>
+
+        <!-- US Site Section -->
+        <div class="site-section">
+            <h2 class="site-title">
+                <span class="site-flag flag-us"></span>
+                United States (US)
+            </h2>
+            
+            <div class="table-title">Break Structure - Consecutive Hours Worked</div>
+            <table class="break-table">
+                <thead>
+                    <tr>
+                        <th>Total Shift Duration (Consecutive Hrs)</th>
+                        <th>PBRK1</th>
+                        <th>UBRK2</th>
+                        <th>PBRK3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>130-359</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>400-659</td>
+                        <td>15</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>700-829</td>
+                        <td>10</td>
+                        <td>30</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>830-1029</td>
+                        <td>15</td>
+                        <td>30</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>1030-1330</td>
+                        <td>20</td>
+                        <td>30</td>
+                        <td>20</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Delhi (India) Site Section -->
+        <div class="site-section">
+            <h2 class="site-title">
+                <span class="site-flag flag-india"></span>
+                Delhi, India (DEL)
+            </h2>
+            
+            <div class="table-title">Standard Break Structure</div>
+            <table class="break-table">
+                <thead>
+                    <tr>
+                        <th>Total Shift Duration by Hrs</th>
+                        <th>PBRK1 (Paid Break)</th>
+                        <th>UBRK2 (Lunch)</th>
+                        <th>PBRK3 (Paid Break)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 Hour</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>2 Hour</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>3 Hour</td>
+                        <td>15</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>4 Hour</td>
+                        <td>15</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>5 Hour</td>
+                        <td>15</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>6 Hour</td>
+                        <td>15</td>
+                        <td>30</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>7 Hour</td>
+                        <td>15</td>
+                        <td>30</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>8 Hour</td>
+                        <td>15</td>
+                        <td>30</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>9 Hour</td>
+                        <td>15</td>
+                        <td>30</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>10 Hour</td>
+                        <td>15</td>
+                        <td>30</td>
+                        <td>15</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-section">
+                <div class="tip-title">💡 Tip of the Week - Power Pay Break Structure</div>
+                <p><strong>How often should I take breaks while working in power pay/lost hours?</strong></p>
+                <p>Don't worry, just check below:</p>
+                <ul style="margin-top: 10px; padding-left: 20px;">
+                    <li><strong>PP/LHR-Hours:</strong> Specify the duration you have opted to deliver</li>
+                    <li><strong>Allowed Breaks:</strong> How many breaks you are allowed as per duration</li>
+                    <li><strong>Break Pattern:</strong> Specify after what duration you can take breaks</li>
+                </ul>
+            </div>
+
+            <div class="table-title">Power Pay/LHR Break Structure</div>
+            <table class="break-table">
+                <thead>
+                    <tr>
+                        <th>PP/LHR Hours</th>
+                        <th>Allowed Breaks</th>
+                        <th>Break Pattern</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>First Break</th>
+                        <th>Second Break</th>
+                        <th>Third Break</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 Hour</td>
+                        <td>No Break</td>
+                        <td>-</td>
+                        <td>0:00</td>
+                        <td>1:00</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>2 Hour</td>
+                        <td>No Break</td>
+                        <td>-</td>
+                        <td>0:00</td>
+                        <td>2:00</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>3 Hour</td>
+                        <td>15*1</td>
+                        <td>1.5</td>
+                        <td>0:00</td>
+                        <td>3:00</td>
+                        <td>1:30</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>4 Hour</td>
+                        <td>15*1</td>
+                        <td>1.5</td>
+                        <td>0:00</td>
+                        <td>4:00</td>
+                        <td>1:30</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>5 Hour</td>
+                        <td>15*1</td>
+                        <td>2.5</td>
+                        <td>0:00</td>
+                        <td>5:00</td>
+                        <td>2:30</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>6 Hour</td>
+                        <td>30*1, 15*2</td>
+                        <td>2:15, 4:0, 5:15</td>
+                        <td>0:00</td>
+                        <td>6:00</td>
+                        <td>2:15</td>
+                        <td>4:00</td>
+                        <td>5:15</td>
+                    </tr>
+                    <tr>
+                        <td>7 Hour</td>
+                        <td>30*1, 15*2</td>
+                        <td>2:15, 4:0, 5:15</td>
+                        <td>0:00</td>
+                        <td>7:00</td>
+                        <td>2:30</td>
+                        <td>4:00</td>
+                        <td>5:15</td>
+                    </tr>
+                    <tr>
+                        <td>8 Hour</td>
+                        <td>30*1, 15*2</td>
+                        <td>2.5, 5:0, 7.5</td>
+                        <td>0:00</td>
+                        <td>8:00</td>
+                        <td>2:30</td>
+                        <td>5:00</td>
+                        <td>7:30</td>
+                    </tr>
+                    <tr>
+                        <td>9 Hour</td>
+                        <td>30*1, 15*2</td>
+                        <td>2.5, 5:0, 7.5</td>
+                        <td>0:00</td>
+                        <td>9:00</td>
+                        <td>2:30</td>
+                        <td>5:00</td>
+                        <td>7:30</td>
+                    </tr>
+                    <tr>
+                        <td>10 Hour</td>
+                        <td>30*1, 15*2</td>
+                        <td>2.5, 6:0, 7.5</td>
+                        <td>0:00</td>
+                        <td>10:00</td>
+                        <td>2:30</td>
+                        <td>5:00</td>
+                        <td>7:30</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="break-details-section" style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 12px; border: 1px solid #dee2e6;">
+                <h4 style="color: #495057; margin-bottom: 20px; display: flex; align-items: center;">
+                    <i class="fas fa-info-circle" style="margin-right: 10px; color: #007bff;"></i>
+                    Break Structure Details
+                </h4>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                        <h5 style="color: #28a745; margin-bottom: 10px;">
+                            <i class="fas fa-clock" style="margin-right: 8px;"></i>Break Duration Legend
+                        </h5>
+                        <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+                            <li><strong>15*1:</strong> One 15-minute break</li>
+                            <li><strong>30*1:</strong> One 30-minute break</li>
+                            <li><strong>15*2:</strong> Two 15-minute breaks</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                        <h5 style="color: #856404; margin-bottom: 10px;">
+                            <i class="fas fa-pattern" style="margin-right: 8px;"></i>Break Pattern Guide
+                        </h5>
+                        <ul style="margin: 0; padding-left: 20px; line-height: 1.6;">
+                            <li><strong>Pattern:</strong> Hours after start when breaks occur</li>
+                            <li><strong>Example:</strong> 2:15, 4:0, 5:15 means breaks at 2h15m, 4h, and 5h15m</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                 <div style="margin-top: 15px; padding: 12px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px;">
+                     <p style="margin: 0; color: #856404; font-size: 0.9em;">
+                         <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
+                         <strong>Important:</strong> Break timings are calculated from your actual login time.
+                     </p>
+                 </div>
+             </div>
+             <div class="overtime-rules" style="margin-top: 20px; padding: 16px; background: #eef6ff; border-radius: 8px; border-left: 4px solid #007bff;">
+                 <h4 style="margin: 0 0 10px 0; color: #0d6efd;">Overtime / Lost Hours Rules (Delhi)</h4>
+                 <ul style="margin: 0; padding-left: 20px; line-height: 1.6; color: #343a40;">
+                     <li>In a day with shift only 1.5 hours of overtime or lost hour recovery is allowed.</li>
+                     <li>Maximum 10.5 hours overtime allowed in a week.</li>
+                     <li>CCP cannot work continuously for 7 days without an off (Overtime or LHR cannot be coded if that makes CCP working for consecutive 7 days).</li>
+                     <li>Lost hour window in India is from 17:30 - 09:30 (+1 day) IST.</li>
+                 </ul>
+             </div>
+         </div>
+
+        <!-- Manila (Philippines) Site Section -->
+        <div class="site-section">
+            <h2 class="site-title">
+                <span class="site-flag flag-philippines"></span>
+                Manila, Philippines (MNL)
+            </h2>
+            
+            <div class="table-title">Standard Break Structure</div>
+            <table class="break-table">
+                <thead>
+                    <tr>
+                        <th>Total Shift Duration by Hrs</th>
+                        <th>PBRK1 (Paid Break)</th>
+                        <th>UBRK2 (Lunch)</th>
+                        <th>PBRK3 (Paid Break)</th>
+                        <th>PBRK4 (Paid Break)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 Hour</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>2 Hour</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>3 Hour</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>4 Hour</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>5 Hour</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>6 Hour</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>7 Hour</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>8 Hour</td>
+                        <td>15</td>
+                        <td>60</td>
+                        <td>15</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>9 Hour</td>
+                        <td>15</td>
+                        <td>60</td>
+                        <td>15</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>10 Hour</td>
+                        <td>15</td>
+                        <td>60</td>
+                        <td>15</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>11 Hour</td>
+                        <td>15</td>
+                        <td>60</td>
+                        <td>15</td>
+                        <td>10</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="note">
+                <strong>Note:</strong> CCP would not have a normal shift that is under 7 hours
+            </div>
+
+            <div class="overtime-section">
+                <div class="table-title">Overtime Break Structure with Shift Gaps</div>
+                <table class="break-table">
+                    <thead>
+                        <tr>
+                            <th>OT Hours</th>
+                            <th>PBRK1 (Paid Break)</th>
+                            <th>UBRK2 (Lunch)</th>
+                            <th>PBRK3 (Paid Break)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2 Hour</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>3 Hour</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>4 Hour</td>
+                            <td>10</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>5 Hour</td>
+                            <td>15</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>6 Hour</td>
+                            <td>20</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>7 Hour</td>
+                            <td>15</td>
+                            <td>-</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>8 Hour</td>
+                            <td>15</td>
+                            <td>-</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>8 Hour</td>
+                            <td>15</td>
+                            <td>-</td>
+                            <td>15</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="note">
+                    <strong>Note:</strong> This is when there is a break from Normal Scheduled shift to the OT portion (There would be an Exception 0 or split meal between normal schedule to OT time)
+                </div>
+            </div>
+
+            <div class="overtime-section">
+                <div class="table-title">Overtime Break Structure with NO Shift Gaps</div>
+                <table class="break-table">
+                    <thead>
+                        <tr>
+                            <th>OT Hours</th>
+                            <th>PBRK4 (Paid Break)</th>
+                            <th>PBRK5 (Paid Break)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2 Hour</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>3 Hour</td>
+                            <td>10</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>4 Hour</td>
+                            <td>10</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>5 Hour</td>
+                            <td>10</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>6 Hour</td>
+                            <td>10</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>7 Hour</td>
+                            <td>15</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>8 Hour</td>
+                            <td>15</td>
+                            <td>15</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="note">
+                    <strong>Note:</strong> This is when OT begins immediately from normal schedule
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

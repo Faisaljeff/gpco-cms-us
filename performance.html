@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Department Performance Dashboard</title>
+<script src="papaparse.min.js"></script>
+<style>
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+  header {
+    background: #004aad;
+    color: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  header h1 {
+    font-size: 22px;
+    margin: 0;
+  }
+
+  .date-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  button {
+    background: #004aad;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  button:hover {
+    background: #0066ff;
+  }
+
+  input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+  }
+
+  main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .no-data {
+    text-align: center;
+    color: #777;
+    margin-top: 30px;
+    font-size: 16px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .card h3 {
+    color: #004aad;
+    margin-bottom: 10px;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+
+  .metric {
+    background: #f0f4ff;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .metric span {
+    display: block;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .metric strong {
+    font-size: 18px;
+    color: #111;
+  }
+</style>
+</head>
+
+<body>
+  <header>
+    <h1>Department Performance Dashboard</h1>
+    <div class="date-controls">
+      <button id="prevDate">&lt;</button>
+      <input type="date" id="datePicker" />
+      <button id="nextDate">&gt;</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="dataContainer"></div>
+  </main>
+
+<script>
+  const csvFilePath = "https://faisaljeff.github.io/excel_file_viewer/performance_us_cms.csv";
+  const dataContainer = document.getElementById("dataContainer");
+  const datePicker = document.getElementById("datePicker");
+
+  // --- Utility: Convert Date object to DD-MM-YYYY (to match CSV format)
+  function formatDateToCSV(date) {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  // --- Utility: Format Date to YYYY-MM-DD for <input type="date">
+  function formatDateForInput(date) {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+  }
+
+  // --- Set default date to yesterday
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  datePicker.value = formatDateForInput(yesterday);
+
+  // --- Fetch and render CSV data
+  function loadData(selectedDate) {
+    dataContainer.innerHTML = "<p class='no-data'>Loading data...</p>";
+
+    Papa.parse(csvFilePath, {
+      download: true,
+      header: true,
+      complete: function(results) {
+        const allData = results.data;
+        const formattedDate = formatDateToCSV(selectedDate);
+        const filtered = allData.filter(row => row["Date"] === formattedDate);
+
+        if (filtered.length === 0) {
+          dataContainer.innerHTML = `<p class='no-data'>No data available for ${formattedDate}</p>`;
+          return;
+        }
+
+        renderData(filtered);
+      },
+      error: function(err) {
+        dataContainer.innerHTML = `<p class='no-data'>Failed to load CSV: ${err.message}</p>`;
+      }
+    });
+  }
+
+  // --- Render filtered data in styled cards
+  function renderData(data) {
+    dataContainer.innerHTML = "";
+
+    data.forEach(row => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${row["LOB"] || "Unnamed Department"}</h3>
+        <div class="metrics">
+          <div class="metric"><span>ACR</span><strong>${row["ACR"] || "-"}</strong></div>
+          <div class="metric"><span>CHT Forecast</span><strong>${row["CHT Forecast"] || "-"}</strong></div>
+          <div class="metric"><span>Actual CHT</span><strong>${row["Actual CHT"] || "-"}</strong></div>
+          <div class="metric"><span>Staffing Forecast</span><strong>${row["Staffing Forecast"] || "-"}</strong></div>
+          <div class="metric"><span>Staffing</span><strong>${row["Staffing"] || "-"}</strong></div>
+          <div class="metric"><span>Staffing Deficit</span><strong>${row["Staffing Deficit"] || "-"}</strong></div>
+          <div class="metric"><span>Volume Drivers</span><strong>${row["Volume Drivers"] || "-"}</strong></div>
+          <div class="metric"><span>System Issue</span><strong>${row["System Issue"] || "-"}</strong></div>
+          <div class="metric"><span>Issue Description</span><strong>${row["Issue Description"] || "-"}</strong></div>
+          <div class="metric"><span>Tools Impacted</span><strong>${row["Tools Impacted"] || "-"}</strong></div>
+          <div class="metric"><span>LOB Impacted</span><strong>${row["LOB Impacted"] || "-"}</strong></div>
+        </div>
+      `;
+      dataContainer.appendChild(card);
+    });
+  }
+
+  // --- Event listeners for date change and navigation
+  datePicker.addEventListener("change", () => loadData(datePicker.value));
+
+  document.getElementById("prevDate").addEventListener("click", () => {
+    const d = new Date(datePicker.value);
+    d.setDate(d.getDate() - 1);
+    datePicker.value = formatDateForInput(d);
+    loadData(datePicker.value);
+  });
+
+  document.getElementById("nextDate").addEventListener("click", () => {
+    const d = new Date(datePicker.value);
+    d.setDate(d.getDate() + 1);
+    datePicker.value = formatDateForInput(d);
+    loadData(datePicker.value);
+  });
+
+  // --- Initial load
+  loadData(yesterday);
+</script>
+</body>
+</html>

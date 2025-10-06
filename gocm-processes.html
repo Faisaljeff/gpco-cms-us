@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GOCM Processes - GPCO CMS US</title>
+  <title>GPCO Processes - GPCO CMS US</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -51,7 +51,7 @@
       <section class="page-header">
         <div class="container">
           <div class="breadcrumb"><a href="index.html">Home</a> / <span>GOCM Processes</span></div>
-          <h1 class="page-title">GOCM Processes</h1>
+          <h1 class="page-title">GPCO Processes</h1>
           <p class="page-subtitle">Site‑specific processes and self‑serve rules for US, Delhi, and Manila</p>
         </div>
       </section>
@@ -64,69 +64,73 @@
         <div class="grid">
           <!-- Flattened groups: each becomes its own card in one horizontal row -->
           <div class="card">
-            <h4>Workflow — Same Day Request</h4>
+            <h4>Slack Workflow — Same Day Request</h4>
             <ul>
-              <li>ADHOC — add / move / remove (coaching, OJT, meeting, skip level, sup, self‑dev, training, Val Gen).</li>
-              <li>Time adjustments must be made prior to start time; SDL override required otherwise.</li>
-              <li>ADHOC extension; customer follow‑up; floater.</li>
-              <li>Schedule update; skill change — provide CCP to mirror.</li>
+              <li>ADHOC — Add / Move / Remove (coaching, OJT, meeting, skip level, sup, self‑dev, training, Val Gen)*.</li>
+              <li>ADHOC extension *<br>Customer follow‑up * <br> Floater *</li>
+              <li>Schedule update, skill change — need to provide CCP to mirror.</li>
               <li>Overtime requests — cannot exceed 12 hours.</li>
-              <li>Approved in Code Black and Green.</li>
+			  <br><h6>*(Approved in Code Black and Green.)</h6>
+			  <br><h6>*(Time adjustments must be made prior to start time, SDL override required otherwise)</h6>
             </ul>
           </div>
           <div class="card">
-            <h4>Workflow — Within 7 Days Request</h4>
+            <h4>Slack Workflow — Within 7 Days Request</h4>
             <ul>
               <li>Flex request — current week only.</li>
-              <li>SDL PTO override.</li>
-              <li>SDL PTO delete / cancellation; cannot delete/cancel PTO in the past.</li>
-              <li>Absence: Certified PTO, Certified Sick, Certified Unpaid, Evacuation, No Show, Sick Paid, Unpaid Sick, Unpaid Leave, Company Paid (Bereavement, Jury Duty, etc.).</li>
-              <li>SDL notification / minimum of 1‑hour increments.</li>
+			  <h6>*(SDL override is required if change is made post start time and for after the fact flex requests.)</h6><br>
+              <li>SDL PTO override - Add | Cancellation</li>
+			  <h6>*(SDL override is required to cancel PTO in the past and within 72 Hours, unless negative IDPs and/or requesting day off and code blue)</h6><br>
+              <li>Emergency PTO P2</li>
+              <h6>*SDL notification / minimum of 1‑hour increments.</h6>
             </ul>
           </div>
           <div class="card">
-            <h4>Workflow — Miscellaneous Request</h4>
+            <h4>Slack Workflow — Miscellaneous Request</h4>
             <ul>
               <li>SDL override — ADHOC, flexes, PTO.</li>
               <li>Critical coaching — 15 minutes.</li>
               <li>Customer follow‑up — last 30 minutes of schedule.</li>
-              <li>Approved in Code Amber, Red, or Blue.</li>
+              <br><h6>*Approved in Code Amber, Red, or Blue.</h6>
+            </ul>
+          </div>
+		  <div class="card">
+            <h4>Slack Workflow — Absences Request</h4>
+            <ul>
+			<h5> Absences Request</h5>
+              <li>Certified PTO, Certified Sick, Certified Unpaid, Evacuation, No Show, Sick Paid/Unpaid, Company paid leave(Bereavement, Jury Duty, etc)</li>
+              
             </ul>
           </div>
           <div class="card">
-            <h4>Email — Real‑Time (≤ 7 Days)</h4>
+            <h4>Email — Real‑Time Requests - Within 7 Days</h4>
             <ul>
-              <li>Send to: uscsmarealtime@aexp.com.</li>
-              <li>ADHOC correction; coaching/OJT/meeting/skip level/sup/self‑dev/training/Val Gen.</li>
-              <li>System issues corrections; schedule updates; overtime; trade; absence.</li>
-              <li>SDL override required for absences after 72 hours.</li>
-              <li>Note: Breaks & lunches are not moved once set (especially in coaching meetings).</li>
+              <li>Send to: uscsmarealtime@test.com.</li>
+              <li>ADHOC correction, coaching/OJT/meeting/skip level/sup/self‑dev/training/Val Gen.</li>
+			  <li>New OTP Requests within 7 days (not for same day, with SDL approval)</li>
+              <li>System issues corrections<br> Schedule updates <br> Overtime <br> Trade <br> Absence <br> Return to work <br> Any issue related to schedule within 7 days</li>
+              <h6>SDL override required for absences after 72 hours.</h6>
+              <h6>Note: Breaks & lunches are not moved once set (especially in coaching meetings).</h6>
             </ul>
           </div>
           <div class="card">
-            <h4>Email — Planning Team (≥ 7 Days)</h4>
+            <h4>Email — Planning Team- Outside of 7 Days</h4>
             <ul>
-              <li>Send to: apac‑cmsplanning‑wfo@aexp.com.</li>
-              <li>PTO balances; permanent schedule change; training; assignments; team changes.</li>
-              <li>ADA schedule; long term planning items.</li>
-              <li>Anything outside 7 days goes to Planning.</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h4>Email — Break / Lunch Guidance</h4>
-            <ul>
-              <li>Follow scheduled break and lunch windows; not moved to fit meetings.</li>
-              <li>Use coded exceptions when required by coaching/meeting overlap.</li>
+              <li>Send to: apac‑cmsplanning‑wfo@test.com.</li>
+              <li>PTO balances,<br> Permanent schedule change,<br>  Training,<br>  Assignments,<br>  Team changes,<br> ADA schedule,<br>Long term planning items ,<br> </li>
+              <h6>Anything outside 7 days goes to Planning.</h6>
             </ul>
           </div>
           <div class="card">
             <h4>CCPs Self‑Serve</h4>
             <ul>
               <li>Full day trade.</li>
+			  <h6>Reference LRN133 for any assistance/clarification</h6>
               <li>PTO cancellation — outside 7 days or more.</li>
               <li>Sick — outside 7 days or more.</li>
-              <li>System issue — 7‑day rule for ATS updates applies; do not add a system issue the same time as another item.</li>
-              <li>Overtime — total weekend hours cannot exceed 12 hours.</li>
+              <li>System issue </li>
+			  <h6>7‑day rule for ATS updates applies, do not add a system issue the same time as another item.</h6>
+              <li>Overtime Requests — total hours cannot exceed 12 hours.</li>
             </ul>
           </div>
         </div>

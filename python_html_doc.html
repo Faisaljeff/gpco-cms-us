@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Pyodide + Matplotlib Demo</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+    #loading {
+      font-size: 1.1rem;
+      color: #2563eb;
+      animation: blink 1.2s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    #plot-container img {
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Pyodide + Matplotlib Chart Demo</h1>
+  <div id="loading">⏳ Loading Python environment...</div>
+  <div id="plot-container"></div>
+
+  <script type="text/javascript">
+    async function main() {
+      const loadingDiv = document.getElementById("loading");
+      try {
+        // Step 1: Load Pyodide
+        loadingDiv.textContent = "🚀 Initializing Pyodide...";
+        const pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/" });
+
+        // Step 2: Load matplotlib & numpy
+        loadingDiv.textContent = "📦 Loading Python packages (matplotlib, numpy)...";
+        await pyodide.loadPackage("micropip");
+        await pyodide.runPythonAsync(`
+import micropip
+await micropip.install(["matplotlib", "numpy"])
+        `);
+
+        // Step 3: Generate chart
+        loadingDiv.textContent = "🎨 Generating chart...";
+        const pngBase64 = await pyodide.runPythonAsync(`
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import numpy as np
+from io import BytesIO
+import base64
+
+x = np.linspace(0, 2 * np.pi, 200)
+y = np.sin(x) * np.cos(2 * x)
+
+plt.figure(figsize=(6,4))
+plt.plot(x, y, label='sin(x)*cos(2x)', color='purple')
+plt.title("Pyodide + Matplotlib Demo")
+plt.xlabel("x-axis")
+plt.ylabel("y-axis")
+plt.legend()
+plt.grid(True)
+
+buf = BytesIO()
+plt.savefig(buf, format='png', bbox_inches='tight')
+buf.seek(0)
+base64.b64encode(buf.read()).decode('utf-8')
+        `);
+
+        // Step 4: Display the image
+        const img = document.createElement("img");
+        img.src = "data:image/png;base64," + pngBase64;
+        document.getElementById("plot-container").appendChild(img);
+        loadingDiv.remove();
+
+      } catch (err) {
+        loadingDiv.textContent = "❌ Error: " + err;
+        console.error(err);
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>

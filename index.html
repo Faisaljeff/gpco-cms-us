@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPCO CMS US - Content Management System</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=inline-fix-1">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -20,29 +20,64 @@
                     <li><a href="#about" class="nav-link">About</a></li>
                     <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
+                
             </nav>
         </div>
     </header>
 
+    <nav class="section-nav" id="sectionNav" aria-label="Section Navigation">
+        <div class="container">
+            <a href="#quick" class="section-link">Quick Access</a>
+            <a href="#modules" class="section-link">Modules</a>
+            <a href="#sops" class="section-link">SOPs</a>
+            <a href="#processes" class="section-link">Processes</a>
+        </div>
+    </nav>
     <main class="main">
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
                     <h1 class="hero-title">Welcome to GPCO CMS US</h1>
                     <p class="hero-subtitle">Your comprehensive content management system for streamlined operations</p>
+                    <div class="hero-search" role="search">
+                        <input id="searchInputInline" class="hero-search-input" type="text" placeholder="Search anything (Press / or Ctrl+K)" aria-label="Inline search" />
+                        <div id="inlineSearchResults" class="search-results" aria-live="polite"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="dashboard">
+        <!-- Quick Access Section -->
+        <section id="quick" class="quick-links">
             <div class="container">
+                <div class="section-header">
+                    <h2>Quick Access</h2>
+                    <p>Jump directly to frequently used areas</p>
+                </div>
+                <div class="quick-links-grid">
+                    <a class="quick-link" href="gax.html"><i class="fas fa-cogs" aria-hidden="true"></i><span>GAX</span></a>
+                    <a class="quick-link" href="important-links.html"><i class="fas fa-link" aria-hidden="true"></i><span>Important Links</span></a>
+                    <a class="quick-link" href="break-structure.html"><i class="fas fa-clock" aria-hidden="true"></i><span>Break Structure</span></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modules Section -->
+        <section class="dashboard" id="modules">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Modules</h2>
+                    <p>Core areas at a glance</p>
+                </div>
                 <div class="dashboard-grid">
+                    <!-- Anchor for SOPs -->
+                    <div id="sops" class="section-anchor" aria-hidden="true"></div>
                     <div class="card" onclick="navigateTo('schedule-file.html')">
                         <div class="card-icon">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
-                        <h3 class="card-title">Schedule File</h3>
-                        <p class="card-description">Manage and organize your scheduling operations</p>
+                        <h3 class="card-title">Schedule</h3>
+<p class="card-description">Manage schedules</p>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
                         </div>
@@ -52,8 +87,8 @@
                         <div class="card-icon">
                             <i class="fas fa-tasks"></i>
                         </div>
-                        <h3 class="card-title">Task Assignment</h3>
-                        <p class="card-description">Assign and track tasks across teams</p>
+                        <h3 class="card-title">Tasks</h3>
+<p class="card-description">Assign and track</p>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
                         </div>
@@ -64,7 +99,7 @@
                             <i class="fas fa-chart-line"></i>
                         </div>
                         <h3 class="card-title">P&DI</h3>
-                        <p class="card-description">Performance and Development Insights</p>
+<p class="card-description">Performance insights</p>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
                         </div>
@@ -75,7 +110,7 @@
                             <i class="fas fa-cogs"></i>
                         </div>
                         <h3 class="card-title">GAX</h3>
-                        <p class="card-description">Global Application Exchange</p>
+                        <p class="card-description">App exchange</p>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
                         </div>
@@ -85,8 +120,8 @@
                         <div class="card-icon">
                             <i class="fas fa-book"></i>
                         </div>
-                        <h3 class="card-title">Standard Operating Procedures</h3>
-                        <p class="card-description">Access SOPs for different regions</p>
+                        <h3 class="card-title">SOPs</h3>
+                        <p class="card-description">Regional guides</p>
                         <div class="sop-buttons">
                             <button class="sop-btn" onclick="navigateTo('sop-delhi.html')">Delhi</button>
                             <button class="sop-btn" onclick="navigateTo('sop-manila.html')">Manila</button>
@@ -98,8 +133,8 @@
                         <div class="card-icon">
                             <i class="fas fa-clock"></i>
                         </div>
-                        <h3 class="card-title">Break Structure</h3>
-                        <p class="card-description">Site-wise break allocation guidelines</p>
+                        <h3 class="card-title">Breaks</h3>
+                        <p class="card-description">Allocation guide</p>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
                         </div>
@@ -109,8 +144,8 @@
                         <div class="card-icon">
                             <i class="fas fa-list-check"></i>
                         </div>
-                        <h3 class="card-title">GOCM Processes</h3>
-                        <p class="card-description">US, Delhi, Manila site-wise process guides</p>
+                        <h3 class="card-title">Processes</h3>
+                        <p class="card-description">Site-wise guides</p>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
                         </div>
@@ -120,8 +155,8 @@
                         <div class="card-icon">
                             <i class="fas fa-link"></i>
                         </div>
-                        <h3 class="card-title">Important Links</h3>
-                        <p class="card-description">Quick access to essential resources</p>
+                        <h3 class="card-title">Links</h3>
+                        <p class="card-description">Essential resources</p>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
                         </div>
@@ -131,11 +166,7 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 GPCO CMS US. All rights reserved.</p>
-        </div>
-    </footer>
+    
 
     <script src="script.js"></script>
 </body>

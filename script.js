@@ -274,3 +274,149 @@ window.addEventListener('load', function() {
     const loadTime = performance.now();
     console.log(`Page loaded in ${Math.round(loadTime)}ms`);
 });
+
+// Global Search - index.html integration
+(function() {
+  const pages = [
+    { title: 'Schedule File', url: 'schedule-file.html' },
+    { title: 'Task Assignment', url: 'task-assignment.html' },
+    { title: 'P&DI', url: 'pdi.html' },
+    { title: 'GAX', url: 'gax.html' },
+    { title: 'Standard Operating Procedures (Delhi)', url: 'sop-delhi.html' },
+    { title: 'Standard Operating Procedures (Manila)', url: 'sop-manila.html' },
+    { title: 'Standard Operating Procedures (US)', url: 'sop-us.html' },
+    { title: 'Break Structure', url: 'break-structure.html' },
+    { title: 'GOCM Processes', url: 'gocm-processes.html' },
+    { title: 'Important Links', url: 'important-links.html' },
+    { title: 'Performance', url: 'performance.html' },
+    { title: 'CSV File Viewer', url: 'csv_file_viewer.html' },
+    { title: 'Python HTML Doc', url: 'python_html_doc.html' }
+  ];
+
+  const normalize = (text) => (text || '').toString().toLowerCase();
+
+  async function fetchPageText(url){
+    try { const r = await fetch(url); return await r.text(); } catch { return ''; }
+  }
+  function extractText(html){
+    if(!html) return '';
+    const noScripts = html.replace(/<script[\s\S]*?<\/script>/gi, ' ');
+    const noStyles = noScripts.replace(/<style[\s\S]*?<\/style>/gi, ' ');
+    const textOnly = noStyles.replace(/<[^>]+>/g, ' ');
+    return textOnly.replace(/\s+/g, ' ').trim();
+  }
+
+  function highlight(text, query){
+    if(!query) return text;
+    const safe = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(${safe})`, 'ig');
+    return text.replace(re, '<span class="search-highlight">$1</span>');
+  }
+
+  function setupInlineSearch(){
+    const input = document.getElementById('searchInputInline');
+    const results = document.getElementById('inlineSearchResults');
+    if(!input || !results) return;
+
+    const cache = {}; let ready = false; let items = []; let selectedIndex = -1; let lastQuery = '';
+    const prefetch = Promise.all(pages.map(async p => {
+      const html = await fetchPageText(p.url); cache[p.url] = extractText(html);
+    })).finally(()=>{ ready = true; });
+
+    function render(query){
+      results.innerHTML = '';
+      const q = normalize(query);
+      if(!q){ items = []; selectedIndex = -1; return; }
+
+      const matched = [];
+      for(const p of pages){
+        const text = normalize(cache[p.url] || '');
+        const titleMatch = normalize(p.title).includes(q);
+        const textMatch = text.includes(q);
+        if(titleMatch || textMatch){
+          const snippetIdx = text.indexOf(q);
+          let snippet = '';
+          if(snippetIdx !== -1){
+            const start = Math.max(0, snippetIdx - 60);
+            const end = Math.min(text.length, snippetIdx + 120);
+            snippet = text.substring(start, end);
+            snippet = highlight(snippet, query);
+          }
+          matched.push({ ...p, snippet });
+        }
+      }
+      items = matched;
+      selectedIndex = matched.length ? 0 : -1;
+
+      if(matched.length === 0){ results.innerHTML = ''; return; }
+
+      const html = matched.map((m, i) => `
+        <div class="search-result-item${i===selectedIndex ? ' selected' : ''}" data-index="${i}">
+          <a href="${m.url}" onclick="event.stopPropagation();">${highlight(m.title, query)}<span class="secondary">${m.snippet || ''}</span></a>
+        </div>`).join('');
+      results.innerHTML = html;
+    }
+
+    const debounced = (fn, wait=120) => { let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), wait); }; };
+    const onInput = debounced(async (e)=>{
+      lastQuery = e.target.value;
+      if(!ready){ try{ await Promise.race([prefetch, new Promise(res=>setTimeout(res,200))]); }catch{} }
+      // Ensure missing cache fetched
+      const missing = pages.filter(p => !(p.url in cache));
+      if(missing.length){ await Promise.all(missing.map(async p => { const html = await fetchPageText(p.url); cache[p.url] = extractText(html); })); }
+      render(lastQuery);
+    });
+
+    input.addEventListener('input', onInput);
+
+    input.addEventListener('keydown', (e)=>{
+      if(!items.length) return;
+      if(e.key === 'ArrowDown'){ e.preventDefault(); selectedIndex = Math.min(items.length-1, selectedIndex+1); render(lastQuery); }
+      else if(e.key === 'ArrowUp'){ e.preventDefault(); selectedIndex = Math.max(0, selectedIndex-1); render(lastQuery); }
+      else if(e.key === 'Enter'){
+        e.preventDefault(); const sel = items[selectedIndex]; if(sel){ window.location.href = sel.url; }
+      } else if(e.key === 'Escape'){ results.innerHTML=''; }
+    });
+
+    results.addEventListener('mousemove', (e)=>{
+      const item = e.target.closest('.search-result-item');
+      if(!item) return; const idx = Number(item.dataset.index); if(!Number.isNaN(idx)){ selectedIndex = idx; const q = lastQuery; render(q); }
+    });
+
+    results.addEventListener('click', (e)=>{
+      const item = e.target.closest('.search-result-item');
+      if(!item) return; const idx = Number(item.dataset.index); const sel = items[idx]; if(sel){ window.location.href = sel.url; }
+    });
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupInlineSearch);
+  else setupInlineSearch();
+})();
+
+// Inline hero search and global shortcuts
+(function(){
+  // Removed keyboard shortcut triggers and modal routing; inline search now handles input directly.
+})();
+
+// Highlight current section on sticky section-nav
+(function(){
+  const nav = document.getElementById('sectionNav');
+  if(!nav) return;
+  const links = Array.from(nav.querySelectorAll('.section-link'));
+  const ids = links.map(l => l.getAttribute('href').replace('#',''));
+  const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(entry => {
+      const id = entry.target.id;
+      const link = links.find(l => l.getAttribute('href') === `#${id}`);
+      if(!link) return;
+      if(entry.isIntersecting){
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.0 });
+
+  sections.forEach(sec => obs.observe(sec));
+})();

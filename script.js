@@ -308,9 +308,20 @@ window.addEventListener('load', function() {
 
   function highlight(text, query){
     if(!query) return text;
-    const safe = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const re = new RegExp(`(${safe})`, 'ig');
-    return text.replace(re, '<span class="search-highlight">$1</span>');
+    
+    // Secure sanitization - remove all potentially dangerous content
+    const sanitizedQuery = query
+      .replace(/<[^>]*>/g, '') // Remove all HTML tags
+      .replace(/javascript:/gi, '') // Remove javascript protocol
+      .replace(/on\w+\s*=/gi, '') // Remove event handlers
+      .replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape regex characters
+      .trim();
+    
+    if(!sanitizedQuery) return text;
+    
+    // Use textContent-safe highlighting with data attributes
+    const re = new RegExp(`(${sanitizedQuery})`, 'ig');
+    return text.replace(re, '<mark class="search-highlight" data-highlight="true">$1</mark>');
   }
 
   function setupInlineSearch(){
@@ -359,7 +370,20 @@ window.addEventListener('load', function() {
 
     const debounced = (fn, wait=120) => { let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), wait); }; };
     const onInput = debounced(async (e)=>{
-      lastQuery = e.target.value;
+      // Sanitize input before processing
+      const rawValue = e.target.value;
+      const sanitizedValue = rawValue
+        .replace(/<[^>]*>/g, '') // Remove HTML tags
+        .replace(/javascript:/gi, '') // Remove javascript protocol
+        .replace(/on\w+\s*=/gi, '') // Remove event handlers
+        .substring(0, 100); // Limit length to prevent abuse
+      
+      // Update input with sanitized value if it changed
+      if (sanitizedValue !== rawValue) {
+        e.target.value = sanitizedValue;
+      }
+      
+      lastQuery = sanitizedValue;
       if(!ready){ try{ await Promise.race([prefetch, new Promise(res=>setTimeout(res,200))]); }catch{} }
       // Ensure missing cache fetched
       const missing = pages.filter(p => !(p.url in cache));
@@ -396,27 +420,4 @@ window.addEventListener('load', function() {
 // Inline hero search and global shortcuts
 (function(){
   // Removed keyboard shortcut triggers and modal routing; inline search now handles input directly.
-})();
-
-// Highlight current section on sticky section-nav
-(function(){
-  const nav = document.getElementById('sectionNav');
-  if(!nav) return;
-  const links = Array.from(nav.querySelectorAll('.section-link'));
-  const ids = links.map(l => l.getAttribute('href').replace('#',''));
-  const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
-
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(entry => {
-      const id = entry.target.id;
-      const link = links.find(l => l.getAttribute('href') === `#${id}`);
-      if(!link) return;
-      if(entry.isIntersecting){
-        links.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.0 });
-
-  sections.forEach(sec => obs.observe(sec));
 })();

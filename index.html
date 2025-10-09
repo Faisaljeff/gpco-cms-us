@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
     <title>GPCO CMS US - Content Management System</title>
     <link rel="stylesheet" href="styles.css?v=inline-fix-1">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="fonts/inter-font.css">
+    <link rel="stylesheet" href="fonts/font-awesome-self-hosted.css">
 </head>
 <body>
     <header class="header">
@@ -16,23 +17,12 @@
             </div>
             <nav class="nav">
                 <ul class="nav-list">
-                    <li><a href="#home" class="nav-link active">Home</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="index.html" class="nav-link active">Home</a></li>
                 </ul>
-                
             </nav>
         </div>
     </header>
 
-    <nav class="section-nav" id="sectionNav" aria-label="Section Navigation">
-        <div class="container">
-            <a href="#quick" class="section-link">Quick Access</a>
-            <a href="#modules" class="section-link">Modules</a>
-            <a href="#sops" class="section-link">SOPs</a>
-            <a href="#processes" class="section-link">Processes</a>
-        </div>
-    </nav>
     <main class="main">
         <section class="hero">
             <div class="container">
@@ -70,8 +60,6 @@
                     <p>Core areas at a glance</p>
                 </div>
                 <div class="dashboard-grid">
-                    <!-- Anchor for SOPs -->
-                    <div id="sops" class="section-anchor" aria-hidden="true"></div>
                     <div class="card" onclick="navigateTo('schedule-file.html')">
                         <div class="card-icon">
                             <i class="fas fa-calendar-alt"></i>

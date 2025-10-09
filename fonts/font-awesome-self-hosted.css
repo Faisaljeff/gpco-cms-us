@@ -1,0 +1,61 @@
+/* Font Awesome Icons - Self-hosted CSS-only version */
+/* This replaces Font Awesome with CSS-based icons for security */
+
+/* Icon base styles */
+.fas, .far, .fab, .fa {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+}
+
+.far {
+  font-weight: 400;
+}
+
+/* Common icons used in your application */
+.fa-calendar-alt::before { content: "📅"; }
+.fa-tasks::before { content: "📋"; }
+.fa-chart-line::before { content: "📈"; }
+.fa-cogs::before { content: "⚙️"; }
+.fa-book::before { content: "📖"; }
+.fa-clock::before { content: "🕐"; }
+.fa-list-check::before { content: "✅"; }
+.fa-link::before { content: "🔗"; }
+.fa-arrow-right::before { content: "→"; }
+.fa-plus::before { content: "➕"; }
+.fa-users::before { content: "👥"; }
+.fa-chart-bar::before { content: "📊"; }
+.fa-inbox::before { content: "📥"; }
+.fa-play::before { content: "▶️"; }
+.fa-check::before { content: "✓"; }
+.fa-exclamation-triangle::before { content: "⚠️"; }
+.fa-info-circle::before { content: "ℹ️"; }
+.fa-check-circle::before { content: "✅"; }
+.fa-times::before { content: "✕"; }
+.fa-times-circle::before { content: "❌"; }
+
+/* Alternative: Use Unicode symbols for better compatibility */
+.fa-calendar-alt::before { content: "\1F4C5"; }
+.fa-tasks::before { content: "\1F4CB"; }
+.fa-chart-line::before { content: "\1F4C8"; }
+.fa-cogs::before { content: "\2699"; }
+.fa-book::before { content: "\1F4D6"; }
+.fa-clock::before { content: "\1F550"; }
+.fa-list-check::before { content: "\2705"; }
+.fa-link::before { content: "\1F517"; }
+.fa-arrow-right::before { content: "\2192"; }
+.fa-plus::before { content: "\2795"; }
+.fa-users::before { content: "\1F465"; }
+.fa-chart-bar::before { content: "\1F4CA"; }
+.fa-inbox::before { content: "\1F4E5"; }
+.fa-play::before { content: "\25B6"; }
+.fa-check::before { content: "\2713"; }
+.fa-exclamation-triangle::before { content: "\26A0"; }
+.fa-info-circle::before { content: "\2139"; }
+.fa-check-circle::before { content: "\2705"; }
+.fa-times::before { content: "\2715"; }
+.fa-times-circle::before { content: "\274C"; }

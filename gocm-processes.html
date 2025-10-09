@@ -5,30 +5,298 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GPCO Processes - GPCO CMS US</title>
   <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="fonts/inter-font.css">
+  <link rel="stylesheet" href="fonts/font-awesome-self-hosted.css">
   <style>
-    /* Page-specific layout aligned to site theme */
-    .page-header { padding: 2rem 0; }
-    .breadcrumb { color: #666; font-size: 0.95rem; }
-    .page-title { color: #006fcf; font-size: 2rem; font-weight: 700; margin-top: 0.5rem; }
-    .page-subtitle { color: #666; }
+    /* Desktop-Optimized Page Layout */
+    .page-header { padding: 3rem 0; }
+    .breadcrumb { color: #666; font-size: 1rem; }
+    .page-title { color: #006fcf; font-size: 2.5rem; font-weight: 700; margin-top: 0.5rem; text-align: center; }
+    .page-subtitle { color: #666; font-size: 1.1rem; text-align: center; }
 
     .site { margin: 2rem 0; }
     .site h2 { color: #333; font-size: 1.6rem; margin-bottom: 0.75rem; }
 
-    /* Single-column page layout: stack cards vertically */
-    .grid { display: flex; flex-direction: column; gap: 1.25rem; padding: 0; overflow: visible; }
+    /* Desktop-Optimized Grid System */
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
+      gap: 1.5rem; 
+      padding: 0; 
+      overflow: visible; 
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
     .card h4 { color: #333; }
     .card h5 { color: #006fcf; font-size: 1rem; margin-bottom: 0.25rem; }
-    /* Single-column detail tiles inside each card */
+    /* Desktop-Optimized Card Styling */
+    .process-page .card { 
+      overflow: visible; 
+      padding: 1.5rem; 
+      background: #fff; 
+      border: 1px solid #e6eef5; 
+      border-radius: 12px; 
+      box-shadow: 0 2px 6px rgba(33, 150, 243, 0.08); 
+      border-top: 3px solid #006fcf; 
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      min-height: 200px;
+    }
+    .process-page .card:hover { 
+      box-shadow: 0 8px 20px rgba(33, 150, 243, 0.15); 
+      transform: translateY(-3px); 
+    }
+    .process-page .card ul { list-style: disc; margin-top: 0.4rem; padding-left: 1.1rem; }
+    .process-page .card li { line-height: 1.55; margin: 0.2rem 0; }
+    .process-page .card h6 { margin: 0.25rem 0; color: #607D8B; font-weight: 500; }
     .subgrid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 0.75rem; overflow: visible; }
     .subcard { background: #f8fafc; border: 1px solid rgba(0, 111, 207, 0.15); border-radius: 10px; padding: 10px 12px; }
     .subcard ul { padding-left: 18px; }
     .note { color: #666; font-size: 0.9rem; margin-top: 0.5rem; }
-    
+    /* Desktop-Optimized Site Headers - No sticky needed */
+    /* Desktop-Optimized Container */
+    .process-page .container { max-width: 1400px; padding: 0 2rem; }
+    /* Desktop-Optimized Grid Spacing */
+    .process-page .grid { gap: 1.5rem; }
+    /* Card heading styling */
+    .process-page .card h4 { color: #2b3b4f; font-size: 1.05rem; margin: 0 0 0.45rem; }
+
     /* Cards fill the available width in single column */
     .site > .grid > .card { width: 100%; max-width: 100%; }
+
+    /* Desktop-Optimized Site Selection Button System */
+    .site-selector {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .site-btn {
+      background: linear-gradient(135deg, #006fcf, #0080ff);
+      color: white;
+      border: none;
+      padding: 1.2rem 2.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 111, 207, 0.2);
+      position: relative;
+      overflow: hidden;
+      min-width: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .site-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .site-btn:hover::before {
+      left: 100%;
+    }
+
+    .site-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 111, 207, 0.3);
+    }
+
+    .site-btn.active {
+      background: linear-gradient(135deg, #004a8f, #006fcf);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 111, 207, 0.4);
+    }
+
+    .site-btn i {
+      margin-right: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    /* Site Content */
+    .site-content {
+      display: none;
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    .site-content.active {
+      display: block;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Desktop-Optimized Site Headers */
+    .site h2 {
+      background: linear-gradient(135deg, #006fcf, #004a8f);
+      color: white;
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 4px 15px rgba(0, 111, 207, 0.2);
+      position: relative;
+      overflow: hidden;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    .site h2::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .site h2 i {
+      margin-right: 0.75rem;
+      font-size: 1.3rem;
+    }
+
+    /* Enhanced cards */
+    .process-page .card {
+      background: #fff;
+      border: 1px solid #e6eef5;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(33, 150, 243, 0.08);
+      border-top: 3px solid #006fcf;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .process-page .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #006fcf, #0080ff);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .process-page .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .process-page .card:hover {
+      box-shadow: 0 8px 25px rgba(33, 150, 243, 0.15);
+      transform: translateY(-3px);
+    }
+
+    /* Desktop-Only Optimizations */
+    .site-selector {
+      max-width: 1200px;
+      margin: 2rem auto;
+    }
+    
+    .grid {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    /* No Content Message */
+    .no-content-message {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: #666;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border: 2px dashed #dee2e6;
+    }
+    
+    .no-content-message i {
+      font-size: 3rem;
+      color: #006fcf;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .no-content-message h3 {
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Utility Classes for Dynamic Content */
+    .content-loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    
+    .content-error {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      color: #c53030;
+    }
+    
+    .content-success {
+      background: #f0fff4;
+      border: 1px solid #9ae6b4;
+      color: #2f855a;
+    }
+    
+    /* Dynamic Card Sizing */
+    .card.auto-height {
+      height: auto;
+      min-height: 120px;
+    }
+    
+    .card.full-width {
+      grid-column: 1 / -1;
+    }
+    
+    .card.half-width {
+      grid-column: span 1;
+    }
+    
+    /* Animation Classes */
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    .slide-up {
+      animation: slideUp 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
+    }
   </style>
   </head>
   <body>
@@ -40,14 +308,12 @@
         <nav class="nav">
           <ul class="nav-list">
             <li><a href="index.html" class="nav-link">Home</a></li>
-            <li><a href="#" class="nav-link active">GOCM Processes</a></li>
-            <li><a href="#contact" class="nav-link">Contact</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <main class="main">
+    <main class="main process-page">
       <section class="page-header">
         <div class="container">
           <div class="breadcrumb"><a href="index.html">Home</a> / <span>GOCM Processes</span></div>
@@ -58,9 +324,22 @@
 
       <div class="container">
 
+      <!-- Site Selection Buttons -->
+      <div class="site-selector">
+        <button class="site-btn active" data-site="us">
+          <i class="fas fa-flag-usa"></i> United States
+        </button>
+        <button class="site-btn" data-site="delhi">
+          <i class="fas fa-flag"></i> Delhi, India
+        </button>
+        <button class="site-btn" data-site="manila">
+          <i class="fas fa-flag"></i> Manila, Philippines
+        </button>
+      </div>
+
       <!-- US: 3 WAYS TO SUBMIT REQUEST -->
-      <div class="site">
-        <h2><i class="fa-solid fa-flag-usa"></i> United States (US) — 3 Ways to Submit Request</h2>
+      <div class="site site-content active" id="us-content">
+        <h2><i class="fa-solid fa-flag-usa"></i> United States (US) — 3 Ways to Submit Request - Slack Workflow, Email, Self-Serve</h2>
         <div class="grid">
           <!-- Flattened groups: each becomes its own card in one horizontal row -->
           <div class="card">
@@ -137,7 +416,7 @@
       </div>
 
       <!-- Delhi (India) -->
-      <div class="site">
+      <div class="site site-content" id="delhi-content">
         <h2><i class="fa-solid fa-flag"></i> Delhi, India (GUR) — Processes</h2>
         <div class="grid">
           <div class="card">
@@ -213,7 +492,7 @@
       </div>
 
       <!-- Manila (Philippines) -->
-      <div class="site">
+      <div class="site site-content" id="manila-content">
         <h2><i class="fa-solid fa-flag"></i> Manila, Philippines (MNL) — Guidelines & Reminders</h2>
         <div class="grid">
           <div class="card">
@@ -290,12 +569,222 @@
       </div>
     </main>
 
-    <footer class="footer">
-      <div class="container">
-        <p>&copy; 2024 GPCO CMS US. All rights reserved.</p>
-      </div>
-    </footer>
+    
 
     <script src="script.js"></script>
+    <script>
+      // Scalable Site Selection System
+      class SiteSelector {
+        constructor() {
+          this.siteButtons = document.querySelectorAll('.site-btn');
+          this.siteContents = document.querySelectorAll('.site-content');
+          this.activeSite = null;
+          this.init();
+        }
+        
+        init() {
+          this.setupEventListeners();
+          this.setupKeyboardNavigation();
+          this.setupAccessibility();
+          this.autoDetectContent();
+          this.setupResizeHandler();
+        }
+        
+        setupEventListeners() {
+          this.siteButtons.forEach(button => {
+            button.addEventListener('click', (e) => this.handleSiteSelection(e));
+          });
+        }
+        
+        handleSiteSelection(event) {
+          const targetSite = event.currentTarget.getAttribute('data-site');
+          
+          if (this.activeSite === targetSite) return; // Prevent unnecessary updates
+          
+          this.switchToSite(targetSite);
+          this.activeSite = targetSite;
+        }
+        
+        switchToSite(siteId) {
+          // Update button states
+          this.siteButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-site') === siteId);
+          });
+          
+          // Update content visibility
+          this.siteContents.forEach(content => {
+            const isTarget = content.id === siteId + '-content';
+            content.classList.toggle('active', isTarget);
+            
+            if (isTarget) {
+              // Smooth scroll to content
+              setTimeout(() => {
+                content.scrollIntoView({ 
+                  behavior: 'smooth', 
+                  block: 'start',
+                  inline: 'nearest'
+                });
+              }, 150);
+            }
+          });
+        }
+        
+        setupKeyboardNavigation() {
+          this.siteButtons.forEach((button, index) => {
+            button.addEventListener('keydown', (e) => {
+              switch(e.key) {
+                case 'Enter':
+                case ' ':
+                  e.preventDefault();
+                  this.handleSiteSelection(e);
+                  break;
+                case 'ArrowRight':
+                  e.preventDefault();
+                  this.focusNextButton(index);
+                  break;
+                case 'ArrowLeft':
+                  e.preventDefault();
+                  this.focusPreviousButton(index);
+                  break;
+                case 'Home':
+                  e.preventDefault();
+                  this.siteButtons[0].focus();
+                  break;
+                case 'End':
+                  e.preventDefault();
+                  this.siteButtons[this.siteButtons.length - 1].focus();
+                  break;
+              }
+            });
+          });
+        }
+        
+        focusNextButton(currentIndex) {
+          const nextIndex = (currentIndex + 1) % this.siteButtons.length;
+          this.siteButtons[nextIndex].focus();
+        }
+        
+        focusPreviousButton(currentIndex) {
+          const prevIndex = currentIndex === 0 ? this.siteButtons.length - 1 : currentIndex - 1;
+          this.siteButtons[prevIndex].focus();
+        }
+        
+        setupAccessibility() {
+          this.siteButtons.forEach(button => {
+            button.addEventListener('focus', () => {
+              button.style.outline = '2px solid #006fcf';
+              button.style.outlineOffset = '2px';
+            });
+            
+            button.addEventListener('blur', () => {
+              button.style.outline = 'none';
+            });
+          });
+        }
+        
+        autoDetectContent() {
+          // Auto-detect if content exists and show appropriate message
+          this.siteContents.forEach(content => {
+            if (!content.querySelector('.card')) {
+              content.innerHTML = `
+                <div class="no-content-message">
+                  <i class="fas fa-info-circle"></i>
+                  <h3>No processes available</h3>
+                  <p>Content for this site is being updated. Please check back later.</p>
+                </div>
+              `;
+            }
+          });
+        }
+        
+        setupResizeHandler() {
+          // Desktop-only: No resize handling needed
+          // Layout is optimized for desktop screens only
+        }
+        
+        // Public method to add new site dynamically
+        addSite(siteId, siteName, siteIcon = 'fas fa-flag') {
+          const buttonHtml = `
+            <button class="site-btn" data-site="${siteId}">
+              <i class="${siteIcon}"></i> ${siteName}
+            </button>
+          `;
+          
+          const selector = document.querySelector('.site-selector');
+          selector.insertAdjacentHTML('beforeend', buttonHtml);
+          
+          // Reinitialize with new button
+          this.siteButtons = document.querySelectorAll('.site-btn');
+          this.setupEventListeners();
+          this.setupKeyboardNavigation();
+          this.setupAccessibility();
+        }
+        
+        // Public method to add new content section
+        addContent(siteId, contentHtml) {
+          const contentSection = document.createElement('div');
+          contentSection.className = 'site site-content';
+          contentSection.id = `${siteId}-content`;
+          contentSection.innerHTML = contentHtml;
+          
+          const container = document.querySelector('.container');
+          container.appendChild(contentSection);
+          
+          this.siteContents = document.querySelectorAll('.site-content');
+        }
+      }
+      
+      // Initialize when DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        window.siteSelector = new SiteSelector();
+      });
+      
+      /*
+      ============================================
+      HOW TO ADD NEW CONTENT DYNAMICALLY
+      ============================================
+      
+      1. ADD NEW SITE BUTTON:
+         window.siteSelector.addSite('new-site-id', 'New Site Name', 'fas fa-icon');
+      
+      2. ADD NEW CONTENT SECTION:
+         const newContent = `
+           <h2><i class="fas fa-icon"></i> New Site Title</h2>
+           <div class="grid">
+             <div class="card">
+               <h4>Process Title</h4>
+               <ul>
+                 <li>Process item 1</li>
+                 <li>Process item 2</li>
+               </ul>
+             </div>
+           </div>
+         `;
+         window.siteSelector.addContent('new-site-id', newContent);
+      
+      3. ADD NEW CARD TO EXISTING SITE:
+         const newCard = `
+           <div class="card">
+             <h4>New Process</h4>
+             <ul>
+               <li>New process item</li>
+             </ul>
+           </div>
+         `;
+         document.querySelector('#existing-site-content .grid').insertAdjacentHTML('beforeend', newCard);
+      
+      4. UTILITY CLASSES AVAILABLE:
+         - .card.full-width (spans full width)
+         - .card.half-width (spans half width)
+         - .card.auto-height (auto height)
+         - .fade-in (fade in animation)
+         - .slide-up (slide up animation)
+         - .content-loading (loading state)
+         - .content-error (error state)
+         - .content-success (success state)
+      
+      ============================================
+      */
+    </script>
   </body>
 </html>

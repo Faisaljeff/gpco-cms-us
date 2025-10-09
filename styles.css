@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
     color: #333;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -33,7 +33,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 20px;
+    padding: 1.2rem 20px;
 }
 
 .logo h1 {
@@ -47,22 +47,26 @@ body {
     display: flex;
     list-style: none;
     gap: 2rem;
+    justify-content: flex-end;
 }
 
 .nav-link {
     text-decoration: none;
     color: #333;
     font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
     transition: all 0.3s ease;
     position: relative;
+    border: 1px solid transparent;
 }
 
 .nav-link:hover,
 .nav-link.active {
     color: #006fcf;
     background: rgba(0, 111, 207, 0.1);
+    border-color: rgba(0, 111, 207, 0.2);
+    transform: translateY(-1px);
 }
 
 /* Hero Section */
@@ -378,10 +382,16 @@ body {
     .header .container {
         flex-direction: column;
         gap: 1rem;
+        padding: 1rem 20px;
     }
     
     .nav-list {
         gap: 1rem;
+        justify-content: center;
+    }
+    
+    .logo h1 {
+        font-size: 1.5rem;
     }
     
     .hero-title {
@@ -449,18 +459,6 @@ html {
     outline-offset: 2px;
 }
 
-/* Section Navigation */
-.section-nav {
-  position: sticky;
-  top: 64px; /* below header */
-  z-index: 900;
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: saturate(180%) blur(8px);
-  border-bottom: 1px solid #e0e0e0;
-}
-.section-nav .container { display: flex; gap: 1rem; padding: 0.5rem 20px; }
-.section-link { color: #004a8f; text-decoration: none; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 8px; }
-.section-link:hover { background: rgba(0,111,207,0.08); }
 
 /* Section header */
 .section-header { display:flex; align-items:end; justify-content:space-between; margin-bottom: 0.75rem; }
@@ -535,7 +533,21 @@ html {
   box-shadow: inset 0 0 0 1px #d1e3ff;
 }
 
-.search-highlight { background: #fff2a8; border-radius: 3px; padding: 0 2px; }
+.search-highlight { 
+  background: #fff2a8; 
+  border-radius: 3px; 
+  padding: 0 2px; 
+  color: inherit;
+  font-weight: inherit;
+}
+
+/* Ensure mark elements are styled consistently */
+mark.search-highlight {
+  background: #fff2a8;
+  color: #333;
+  padding: 0 2px;
+  border-radius: 3px;
+}
 
 /* Make list scrollable if too long */
 .hero-search .search-results {
@@ -558,8 +570,79 @@ html {
 .quick-link { display:inline-flex; align-items:center; gap:0.5rem; background:white; border:1px solid #e0e0e0; padding:0.5rem 0.75rem; border-radius:8px; color:#333; text-decoration:none; }
 .quick-link:hover { border-color:#cfd8dc; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
-/* Section anchors (spacer to align sticky nav links) */
-.section-anchor { position: absolute; margin-top: -80px; }
+/* Two-column links table */
+.links-table {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: 1px solid #e6eef5;
+  margin-top: 1rem;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  background: linear-gradient(135deg, #006fcf, #004a8f);
+  color: white;
+  font-weight: 600;
+}
+
+.header-cell {
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-cell:last-child {
+  border-right: none;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  border-bottom: 1px solid #e6eef5;
+  transition: background-color 0.2s ease;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-row:hover {
+  background-color: #f8fafc;
+}
+
+.table-cell {
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #e6eef5;
+}
+
+.table-cell:last-child {
+  border-right: none;
+}
+
+.tool-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+.tool-link {
+  color: #006fcf;
+  text-decoration: none;
+  font-size: 0.95rem;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.tool-link:hover {
+  color: #004a8f;
+  text-decoration: underline;
+}
+
 
 /* Compact grid already set earlier */
 /* Fix: ensure search suggestions dropdown appears above and is not clipped */

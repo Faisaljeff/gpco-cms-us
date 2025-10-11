@@ -10,7 +10,7 @@
     <style>
         /* Page-specific styles for WFM Codes */
         .wfm-codes-container {
-            max-width: 1200px;
+            max-width: 95%;
             margin: 0 auto;
             padding: 2rem;
         }
@@ -65,6 +65,17 @@
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .wfm-table th:first-child {
+            min-width: 120px;
+            width: 15%;
+        }
+
+        .wfm-table th:not(:first-child) {
+            min-width: 100px;
+            width: auto;
         }
 
         .wfm-table td {
@@ -72,6 +83,13 @@
             border-bottom: 1px solid #f0f0f0;
             font-size: 0.9rem;
             vertical-align: top;
+            word-wrap: break-word;
+        }
+
+        .wfm-table td:first-child {
+            min-width: 120px;
+            width: 15%;
+            font-weight: 600;
         }
 
         .wfm-table tr:hover {
@@ -120,11 +138,19 @@
         .table-wrapper {
             overflow-x: auto;
             margin: 1rem 0;
+            width: 100%;
+        }
+
+        .wfm-table {
+            width: 100%;
+            min-width: 100%;
+            table-layout: auto;
         }
 
         @media (max-width: 768px) {
             .wfm-codes-container {
                 padding: 1rem;
+                max-width: 100%;
             }
             
             .page-title {
@@ -135,6 +161,12 @@
             .wfm-table td {
                 padding: 0.5rem;
                 font-size: 0.8rem;
+            }
+
+            .wfm-table th:first-child,
+            .wfm-table td:first-child {
+                min-width: 100px;
+                width: 20%;
             }
         }
     </style>

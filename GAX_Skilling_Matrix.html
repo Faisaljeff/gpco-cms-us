@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+    <title>GAX Skilling Matrix - GPCO CMS US</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="fonts/inter-font.css">
+    <link rel="stylesheet" href="fonts/font-awesome-self-hosted.css">
+    <script src="./papaparse.min.js"></script>
+    <style>
+        /* Clean Minimal GAX Skilling Matrix Styling */
+        .gax-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .gax-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e6eef5;
+        }
+
+        .gax-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+            border-bottom: 2px solid #006fcf;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .gax-subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .header-note {
+            background: #f8f9fa;
+            border: 1px solid #e6eef5;
+            border-radius: 6px;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .header-note p {
+            margin: 0;
+            color: #666;
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+
+        /* Clean Matrix Sections */
+        .matrix-section {
+            margin: 2rem 0;
+            background: white;
+            border: 1px solid #e6eef5;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #f8f9fa;
+            color: #333;
+            padding: 1rem 1.25rem;
+            border-bottom: 2px solid #e6eef5;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-left: 4px solid #006fcf;
+        }
+
+        .section-note {
+            background: #f8f9fa;
+            border-top: 1px solid #e6eef5;
+            padding: 0.75rem 1rem;
+            color: #666;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Clean Table Styling - Matrix Format */
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin: 0 auto;
+        }
+
+        .matrix-table th {
+            background: #f1f3f4;
+            color: #333;
+            padding: 0.5rem 0.3rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border-bottom: 2px solid #e6eef5;
+            border-right: 1px solid #e6eef5;
+            min-width: 60px;
+            max-width: 120px;
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+
+        .matrix-table th:last-child {
+            border-right: none;
+        }
+
+        .matrix-table td {
+            padding: 0.5rem 0.3rem;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+            border-right: 1px solid #f0f0f0;
+            font-size: 0.85rem;
+            vertical-align: middle;
+            min-width: 60px;
+            max-width: 120px;
+        }
+
+        .matrix-table td:last-child {
+            border-right: none;
+        }
+
+        .matrix-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .matrix-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Minimal Skill Level Indicators */
+        .skill-level {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .skill-level.high {
+            background: #e8f5e8;
+            color: #2d5a2d;
+        }
+
+        .skill-level.medium {
+            background: #fff8e1;
+            color: #8a6914;
+        }
+
+        .skill-level.low {
+            background: #ffeaea;
+            color: #8b2635;
+        }
+
+        /* Responsive Design */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 8px;
+        }
+
+        .matrix-table {
+            min-width: 600px;
+        }
+
+        /* Responsive adjustments for more columns */
+        @media (max-width: 768px) {
+            .matrix-table {
+                min-width: 500px;
+            }
+            
+            .matrix-table th,
+            .matrix-table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Loading States */
+        .loading-container {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #006fcf;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #006fcf;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Error States */
+        .error-container {
+            text-align: center;
+            padding: 3rem;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            color: #721c24;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+
+        /* Desktop Optimizations */
+        @media (min-width: 1200px) {
+            .gax-container {
+                padding: 3rem;
+            }
+            
+            .matrix-table th,
+            .matrix-table td {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;">GPCO CMS US</a></h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="gax-container">
+            <div class="gax-header">
+                <h1 class="gax-title">GAX Skilling Matrix</h1>
+                <p class="gax-subtitle">Skill assessment and tracking dashboard</p>
+            </div>
+
+            <div class="header-note">
+                <p>Citrix= needs to be informed by leadership of if CCP is still using citrix or not</p>
+            </div>
+
+            <div id="dataContainer">
+                <div class="loading-container">
+                    <div class="spinner"></div>
+                    <p class="loading-text">Loading skill matrix data...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const DATA_FILE_URL = './gax_skilling_matrix_sample.csv'; // Sample CSV file for testing
+
+        function showMessage(message, type) {
+            const msgDiv = document.getElementById('message');
+            msgDiv.className = type;
+            msgDiv.innerHTML = message;
+        }
+
+        function getSkillLevelClass(value) {
+            const numValue = parseInt(value);
+            if (numValue >= 8) return 'skill-level high';
+            if (numValue >= 4) return 'skill-level medium';
+            return 'skill-level low';
+        }
+
+        function formatSkillValue(value) {
+            const numValue = parseInt(value);
+            if (isNaN(numValue)) return value;
+            
+            return `<span class="${getSkillLevelClass(value)}">${value}</span>`;
+        }
+
+        function groupDataBySection(data) {
+            const sections = {};
+            
+            // Process data in groups of 3 rows per section
+            for (let i = 0; i < data.length; i += 3) {
+                if (i + 2 < data.length) {
+                    const sectionRow = data[i];
+                    const headersRow = data[i + 1];
+                    const valuesRow = data[i + 2];
+                    
+                    console.log(`Processing rows ${i}, ${i+1}, ${i+2}:`);
+                    console.log(`Section row (${i}):`, sectionRow);
+                    console.log(`Headers row (${i+1}):`, headersRow);
+                    console.log(`Values row (${i+2}):`, valuesRow);
+                    
+                    // Check if rows exist and have data
+                    if (!sectionRow || !headersRow || !valuesRow) {
+                        continue;
+                    }
+                    
+                    // Row 1: Section name (first column only)
+                    const sectionName = sectionRow[0];
+                    
+                    if (sectionName && sectionName.trim() !== '') {
+                        // Row 2: Table headers (all columns, including empty ones)
+                        const headers = headersRow;
+                        
+                        // Row 3: Table values (all columns, including empty ones)
+                        const values = valuesRow;
+                        
+                        console.log(`Processing section: ${sectionName}`);
+                        console.log(`Raw headers:`, headers);
+                        console.log(`Raw values:`, values);
+                        
+                        // Find the last non-empty column to determine table width
+                        let lastHeaderIndex = -1;
+                        let lastValueIndex = -1;
+                        
+                        for (let i = headers.length - 1; i >= 0; i--) {
+                            if (headers[i] && headers[i].trim() !== '') {
+                                lastHeaderIndex = i;
+                                break;
+                            }
+                        }
+                        
+                        for (let i = values.length - 1; i >= 0; i--) {
+                            if (values[i] && values[i].trim() !== '') {
+                                lastValueIndex = i;
+                                break;
+                            }
+                        }
+                        
+                        const maxIndex = Math.max(lastHeaderIndex, lastValueIndex);
+                        
+                        if (maxIndex >= 0) {
+                            // Take all columns up to the last non-empty one
+                            const finalHeaders = headers.slice(0, maxIndex + 1);
+                            const finalValues = values.slice(0, maxIndex + 1);
+                            
+                            console.log(`Final headers:`, finalHeaders);
+                            console.log(`Final values:`, finalValues);
+                            
+                            sections[sectionName] = {
+                                headers: finalHeaders,
+                                values: finalValues
+                            };
+                            console.log(`Created section: ${sectionName} with ${finalHeaders.length} columns`);
+                        }
+                    }
+                }
+            }
+
+            return sections;
+        }
+
+        function displayData(data) {
+            if (!data || data.length === 0) {
+                document.getElementById('dataContainer').innerHTML = `
+                    <div class="error-container">
+                        <div class="error-icon">⚠️</div>
+                        <h3>No data found in CSV</h3>
+                        <p>Please check your CSV file and try again.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const container = document.getElementById('dataContainer');
+
+            // Debug: Log the raw data
+            console.log('Raw CSV data:', data);
+
+            // Group data by sections
+            const sections = groupDataBySection(data);
+            console.log('Parsed sections:', sections);
+            
+            let sectionsHTML = '';
+
+            if (Object.keys(sections).length === 0) {
+                container.innerHTML = `
+                    <div class="error-container">
+                        <div class="error-icon">⚠️</div>
+                        <h3>No sections found in CSV</h3>
+                        <p>The CSV format might not match the expected structure. Please check the console for debugging information.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            Object.keys(sections).forEach(sectionName => {
+                const section = sections[sectionName];
+                const headers = section.headers;
+                const values = section.values;
+                
+                let tableHTML = `
+                    <div class="matrix-section">
+                        <div class="section-header">
+                            ${sectionName}
+                        </div>
+                `;
+
+                tableHTML += `
+                    <div class="table-wrapper">
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                `;
+
+                // Row 2: Create header row (all columns)
+                headers.forEach(header => {
+                    tableHTML += `<th>${header || ''}</th>`;
+                });
+
+                tableHTML += `
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                `;
+
+                // Row 3: Create data row (all columns)
+                values.forEach((value, index) => {
+                    // Format skill values with color coding if numeric
+                    if (!isNaN(parseInt(value)) && value !== '') {
+                        tableHTML += `<td>${formatSkillValue(value)}</td>`;
+                    } else {
+                        tableHTML += `<td>${value || ''}</td>`;
+                    }
+                });
+
+                tableHTML += `
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                `;
+
+                sectionsHTML += tableHTML;
+            });
+
+            container.innerHTML = sectionsHTML;
+        }
+
+        async function loadData() {
+            try {
+                const response = await fetch(DATA_FILE_URL);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const csvText = await response.text();
+                
+                Papa.parse(csvText, {
+                    header: false,
+                    skipEmptyLines: false,
+                    complete: results => displayData(results.data),
+                    error: err => {
+                        document.getElementById('dataContainer').innerHTML = `
+                            <div class="error-container">
+                                <div class="error-icon">❌</div>
+                                <h3>Error parsing CSV</h3>
+                                <p>${err.message}</p>
+                            </div>
+                        `;
+                    }
+                });
+            } catch (error) {
+                console.error(error);
+                document.getElementById('dataContainer').innerHTML = `
+                    <div class="error-container">
+                        <div class="error-icon">❌</div>
+                        <h3>Failed to load CSV</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ===========================================
+       GOCM Processes Page - GPCO CMS US
+       ===========================================
+       This page displays GOCM (Global Operations Center Management)
+       processes for different sites. Features:
+       - Site selection buttons (US, Delhi, Manila)
+       - Show/hide content functionality
+       - Desktop-optimized layout
+       - Interactive button system
+       - Self-hosted fonts and icons
+       =========================================== -->
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GPCO Processes - GPCO CMS US</title>
+  
+  <!-- Stylesheets: Self-hosted fonts and icons for security -->
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="fonts/inter-font.css">
   <link rel="stylesheet" href="fonts/font-awesome-self-hosted.css">
+  
   <style>
-    /* Desktop-Optimized Page Layout */
+    /* ===========================================
+       GOCM PROCESSES PAGE STYLING
+       ===========================================
+       Desktop-optimized layout with site selection
+       =========================================== */
     .page-header { padding: 3rem 0; }
     .breadcrumb { color: #666; font-size: 1rem; }
     .page-title { color: #006fcf; font-size: 2.5rem; font-weight: 700; margin-top: 0.5rem; text-align: center; }
@@ -300,6 +319,11 @@
   </style>
   </head>
   <body>
+    <!-- ===========================================
+         HEADER SECTION
+         ===========================================
+         Standard header with navigation back to home page
+         =========================================== -->
     <header class="header">
       <div class="container">
         <div class="logo">
@@ -314,6 +338,11 @@
     </header>
 
     <main class="main process-page">
+      <!-- ===========================================
+           PAGE HEADER
+           ===========================================
+           Page title and breadcrumb navigation
+           =========================================== -->
       <section class="page-header">
         <div class="container">
           <div class="breadcrumb"><a href="index.html">Home</a> / <span>GOCM Processes</span></div>
@@ -324,7 +353,11 @@
 
       <div class="container">
 
-      <!-- Site Selection Buttons -->
+      <!-- ===========================================
+           SITE SELECTION BUTTONS
+           ===========================================
+           Interactive buttons to switch between different sites
+           =========================================== -->
       <div class="site-selector">
         <button class="site-btn active" data-site="us">
           <i class="fas fa-flag-usa"></i> United States
@@ -337,7 +370,11 @@
         </button>
       </div>
 
-      <!-- US: 3 WAYS TO SUBMIT REQUEST -->
+      <!-- ===========================================
+           US SITE CONTENT
+           ===========================================
+           United States processes and procedures
+           =========================================== -->
       <div class="site site-content active" id="us-content">
         <h2><i class="fa-solid fa-flag-usa"></i> United States (US) — 3 Ways to Submit Request - Slack Workflow, Email, Self-Serve</h2>
         <div class="grid">
@@ -415,7 +452,11 @@
         </div>
       </div>
 
-      <!-- Delhi (India) -->
+      <!-- ===========================================
+           DELHI SITE CONTENT
+           ===========================================
+           Delhi, India processes and procedures
+           =========================================== -->
       <div class="site site-content" id="delhi-content">
         <h2><i class="fa-solid fa-flag"></i> Delhi, India (GUR) — Processes</h2>
         <div class="grid">
@@ -491,7 +532,11 @@
         </div>
       </div>
 
-      <!-- Manila (Philippines) -->
+      <!-- ===========================================
+           MANILA SITE CONTENT
+           ===========================================
+           Manila, Philippines processes and procedures
+           =========================================== -->
       <div class="site site-content" id="manila-content">
         <h2><i class="fa-solid fa-flag"></i> Manila, Philippines (MNL) — Guidelines & Reminders</h2>
         <div class="grid">
@@ -571,8 +616,23 @@
 
     
 
+    <!-- ===========================================
+         JAVASCRIPT FILES
+         ===========================================
+         script.js: Main functionality and navigation
+         time-display.js: EST/IST time display
+         =========================================== -->
     <script src="script.js"></script>
+    <script src="time-display.js"></script>
+    
     <script>
+      /* ===========================================
+         GOCM PROCESSES JAVASCRIPT
+         ===========================================
+         Handles site selection, show/hide functionality,
+         and interactive button system
+         =========================================== */
+
       // Scalable Site Selection System
       class SiteSelector {
         constructor() {

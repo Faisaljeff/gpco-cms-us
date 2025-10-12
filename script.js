@@ -1,6 +1,28 @@
-// Navigation functionality
+/* ===========================================
+   GPCO CMS US - Main JavaScript File
+   ===========================================
+   This file contains all the main functionality for the GPCO Content Management System.
+   
+   Features:
+   - Navigation system
+   - Global search functionality
+   - Notification system
+   - Keyboard shortcuts
+   - XSS protection for search
+   =========================================== */
+
+/* ===========================================
+   NAVIGATION SYSTEM
+   ===========================================
+   Handles navigation between different pages and modules.
+   =========================================== */
+
+/**
+ * Navigate to a specific page
+ * @param {string} page - The page filename to navigate to
+ */
 function navigateTo(page) {
-    // Check if the page exists, if not, show a placeholder
+    // List of all available pages in the system
     const pages = [
         'schedule-file.html',
         'task-assignment.html', 
@@ -19,20 +41,30 @@ function navigateTo(page) {
     if (pages.includes(page)) {
         window.location.href = page;
     } else {
-        // For now, show an alert - pages will be created
+        // Show notification for non-existent pages
         showNotification(`Navigating to ${page.replace('.html', '').replace('-', ' ').toUpperCase()}`, 'info');
     }
 }
 
-// Notification system
+/* ===========================================
+   NOTIFICATION SYSTEM
+   ===========================================
+   Provides user feedback through toast notifications.
+   =========================================== */
+
+/**
+ * Show a notification to the user
+ * @param {string} message - The message to display
+ * @param {string} type - The type of notification ('info', 'success', 'error')
+ */
 function showNotification(message, type = 'info') {
-    // Remove existing notifications
+    // Remove existing notifications to prevent stacking
     const existingNotification = document.querySelector('.notification');
     if (existingNotification) {
         existingNotification.remove();
     }
     
-    // Create notification element
+    // Create notification element with appropriate styling
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
@@ -209,7 +241,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 1000);
 });
 
-// Search functionality (for future enhancement)
+/* ===========================================
+   SEARCH FUNCTIONALITY
+   ===========================================
+   Provides search capabilities across the system.
+   Includes both basic module search and global search.
+   =========================================== */
+
+/**
+ * Initialize basic search functionality for modules
+ * @returns {HTMLElement} The search input element
+ */
 function initializeSearch() {
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
@@ -277,8 +319,16 @@ window.addEventListener('load', function() {
     console.log(`Page loaded in ${Math.round(loadTime)}ms`);
 });
 
+/* ===========================================
+   GLOBAL SEARCH SYSTEM
+   ===========================================
+   Advanced search functionality with XSS protection and highlighting.
+   Searches across all pages and provides real-time results.
+   =========================================== */
+
 // Global Search - index.html integration
 (function() {
+  // Complete list of all pages in the system for search indexing
   const pages = [
     { title: 'Schedule File', url: 'schedule-file.html' },
     { title: 'Task Assignment', url: 'task-assignment.html' },
@@ -310,10 +360,16 @@ window.addEventListener('load', function() {
     return textOnly.replace(/\s+/g, ' ').trim();
   }
 
+  /**
+   * Highlight search terms in text with XSS protection
+   * @param {string} text - The text to highlight
+   * @param {string} query - The search query to highlight
+   * @returns {string} - Text with highlighted search terms
+   */
   function highlight(text, query){
     if(!query) return text;
     
-    // Secure sanitization - remove all potentially dangerous content
+    // XSS Protection: Secure sanitization - remove all potentially dangerous content
     const sanitizedQuery = query
       .replace(/<[^>]*>/g, '') // Remove all HTML tags
       .replace(/javascript:/gi, '') // Remove javascript protocol
@@ -328,12 +384,19 @@ window.addEventListener('load', function() {
     return text.replace(re, '<mark class="search-highlight" data-highlight="true">$1</mark>');
   }
 
+  /**
+   * Setup the inline search functionality for the hero section
+   * Handles real-time search with caching and keyboard navigation
+   */
   function setupInlineSearch(){
     const input = document.getElementById('searchInputInline');
     const results = document.getElementById('inlineSearchResults');
     if(!input || !results) return;
 
+    // Search state management
     const cache = {}; let ready = false; let items = []; let selectedIndex = -1; let lastQuery = '';
+    
+    // Prefetch all page content for fast searching
     const prefetch = Promise.all(pages.map(async p => {
       const html = await fetchPageText(p.url); cache[p.url] = extractText(html);
     })).finally(()=>{ ready = true; });
@@ -372,9 +435,15 @@ window.addEventListener('load', function() {
       results.innerHTML = html;
     }
 
+    // Debounced input handler to prevent excessive API calls
     const debounced = (fn, wait=120) => { let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), wait); }; };
+    
+    /**
+     * Handle search input with XSS protection and sanitization
+     * @param {Event} e - The input event
+     */
     const onInput = debounced(async (e)=>{
-      // Sanitize input before processing
+      // XSS Protection: Sanitize input before processing
       const rawValue = e.target.value;
       const sanitizedValue = rawValue
         .replace(/<[^>]*>/g, '') // Remove HTML tags

@@ -1,14 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ===========================================
+       Important Links Page - GPCO CMS US
+       ===========================================
+       This page displays a dynamic list of important tools and resources
+       loaded from a CSV file. Features:
+       - CSV data loading with PapaParse
+       - Two-column table layout
+       - Loading states and error handling
+       - XSS protection for data display
+       - Self-hosted fonts and icons
+       =========================================== -->
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Important Links - GPCO CMS US</title>
+  
+  <!-- Stylesheets: Self-hosted fonts and icons for security -->
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="fonts/inter-font.css">
   <link rel="stylesheet" href="fonts/font-awesome-self-hosted.css">
+  
+  
+  <style>
+    /* ===========================================
+       LOADING AND ERROR STATES
+       ===========================================
+       Styling for loading spinner and error messages
+       =========================================== */
+    .loading-container {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #006fcf;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error-container {
+      text-align: center;
+      padding: 3rem;
+      color: #dc3545;
+    }
+
+    .error-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Hide table initially until content is loaded */
+    #linksTable {
+      display: none;
+    }
+
+    /* Show table when content is loaded */
+    #linksTable.loaded {
+      display: block;
+    }
+  </style>
 </head>
 <body>
+  <!-- ===========================================
+       HEADER SECTION
+       ===========================================
+       Standard header with navigation back to home page
+       =========================================== -->
   <header class="header">
     <div class="container">
       <div class="logo">
@@ -23,6 +93,11 @@
   </header>
 
   <main class="main">
+    <!-- ===========================================
+         PAGE HEADER
+         ===========================================
+         Page title and breadcrumb navigation
+         =========================================== -->
     <section class="page-header">
       <div class="container">
         <div class="breadcrumb"><a href="index.html">Home</a> / <span>Important Links</span></div>
@@ -31,57 +106,40 @@
       </div>
     </section>
 
+    <!-- ===========================================
+         LINKS TABLE SECTION
+         ===========================================
+         Dynamic table that loads data from CSV file
+         =========================================== -->
     <section class="quick-links">
       <div class="container">
         <div class="section-header">
           <h2>Tools</h2>
           <p>Starter list with placeholder links</p>
         </div>
-        <div class="links-table">
+        
+        <!-- Main table container - hidden until data loads -->
+        <div class="links-table" id="linksTable">
           <div class="table-header">
             <div class="header-cell">Tool Name</div>
             <div class="header-cell">Link</div>
           </div>
-          <div class="table-row">
-            <div class="table-cell tool-name">Jira</div>
-            <div class="table-cell">
-              <a href="https://www.atlassian.com/software/jira" target="_blank" rel="noopener noreferrer" class="tool-link">
-                https://www.atlassian.com/software/jira
-              </a>
-            </div>
+          <div id="linksContent">
+            <!-- Content will be loaded from CSV -->
           </div>
-          <div class="table-row">
-            <div class="table-cell tool-name">Confluence</div>
-            <div class="table-cell">
-              <a href="https://www.atlassian.com/software/confluence" target="_blank" rel="noopener noreferrer" class="tool-link">
-                https://www.atlassian.com/software/confluence
-              </a>
-            </div>
-          </div>
-          <div class="table-row">
-            <div class="table-cell tool-name">Slack</div>
-            <div class="table-cell">
-              <a href="https://slack.com/" target="_blank" rel="noopener noreferrer" class="tool-link">
-                https://slack.com/
-              </a>
-            </div>
-          </div>
-          <div class="table-row">
-            <div class="table-cell tool-name">ServiceNow</div>
-            <div class="table-cell">
-              <a href="https://www.servicenow.com/" target="_blank" rel="noopener noreferrer" class="tool-link">
-                https://www.servicenow.com/
-              </a>
-            </div>
-          </div>
-          <div class="table-row">
-            <div class="table-cell tool-name">GitHub</div>
-            <div class="table-cell">
-              <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="tool-link">
-                https://github.com/
-              </a>
-            </div>
-          </div>
+        </div>
+        
+        <!-- Loading state with spinner -->
+        <div id="loadingContainer" class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Loading important links...</p>
+        </div>
+        
+        <!-- Error state for failed CSV loading -->
+        <div id="errorContainer" class="error-container" style="display: none;">
+          <div class="error-icon">⚠️</div>
+          <h3>Error Loading Links</h3>
+          <p>Unable to load the important links. Please try refreshing the page.</p>
         </div>
       </div>
     </section>
@@ -89,7 +147,146 @@
 
   
 
+  <!-- ===========================================
+       JAVASCRIPT FILES
+       ===========================================
+       script.js: Main functionality and navigation
+       time-display.js: EST/IST time display
+       papaparse.min.js: CSV parsing library
+       =========================================== -->
   <script src="script.js"></script>
   <script src="time-display.js"></script>
+  <script src="papaparse.min.js"></script>
+  
+  <script>
+    /* ===========================================
+       CSV DATA LOADING AND DISPLAY
+       ===========================================
+       Loads important links from CSV file and displays them
+       in a two-column table with XSS protection.
+       =========================================== */
+
+    // Initialize CSV loading when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Wait a bit for PapaParse to load if it's not ready yet
+      if (typeof Papa === 'undefined') {
+        setTimeout(() => {
+          if (typeof Papa === 'undefined') {
+            document.getElementById('errorContainer').style.display = 'block';
+            document.getElementById('loadingContainer').style.display = 'none';
+            return;
+          }
+          loadImportantLinks();
+        }, 100);
+        return;
+      }
+      loadImportantLinks();
+    });
+
+    /**
+     * Load and display important links from CSV file
+     * Handles loading states, error states, and data parsing
+     */
+    async function loadImportantLinks() {
+      const loadingContainer = document.getElementById('loadingContainer');
+      const errorContainer = document.getElementById('errorContainer');
+      const linksTable = document.getElementById('linksTable');
+      const linksContent = document.getElementById('linksContent');
+
+      try {
+        // Show loading state
+        loadingContainer.style.display = 'block';
+        errorContainer.style.display = 'none';
+        linksTable.style.display = 'none';
+
+        // Fetch CSV data from important_links.csv
+        const response = await fetch('important_links.csv');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const csvText = await response.text();
+        
+        // Parse CSV data
+        const parsedData = Papa.parse(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          trimHeaders: true
+        });
+
+        if (parsedData.errors.length > 0) {
+          console.error('CSV parsing errors:', parsedData.errors);
+          throw new Error('Error parsing CSV data');
+        }
+
+        // Display the data
+        displayLinks(parsedData.data);
+
+        // Hide loading and show table
+        loadingContainer.style.display = 'none';
+        linksTable.style.display = 'block'; // Force display instead of relying on CSS class
+        linksTable.classList.add('loaded');
+
+      } catch (error) {
+        console.error('Error loading important links:', error);
+        
+        // Show error state
+        loadingContainer.style.display = 'none';
+        errorContainer.style.display = 'block';
+        linksTable.style.display = 'none';
+      }
+    }
+
+    /**
+     * Display the parsed CSV data in the table
+     * @param {Array} linksData - Array of link objects from CSV
+     */
+    function displayLinks(linksData) {
+      const linksContent = document.getElementById('linksContent');
+      
+      // Clear existing content
+      linksContent.innerHTML = '';
+
+      // Create table rows for each link with XSS protection
+      linksData.forEach(link => {
+        if (link['Tool Name'] && link['Link']) {
+          const tableRow = document.createElement('div');
+          tableRow.className = 'table-row';
+          
+          // Create table row HTML with escaped content
+          tableRow.innerHTML = `
+            <div class="table-cell tool-name">${escapeHtml(link['Tool Name'])}</div>
+            <div class="table-cell">
+              <a href="${escapeHtml(link['Link'])}" target="_blank" rel="noopener noreferrer" class="tool-link">
+                ${escapeHtml(link['Link'])}
+              </a>
+            </div>
+          `;
+          
+          linksContent.appendChild(tableRow);
+        }
+      });
+
+      // Update section description with count
+      if (linksData.length > 0) {
+        const sectionDescription = document.querySelector('.section-header p');
+        if (sectionDescription) {
+          sectionDescription.textContent = `${linksData.length} tools available`;
+        }
+      }
+    }
+
+    /**
+     * XSS Protection: Escape HTML to prevent cross-site scripting
+     * @param {string} text - Text to escape
+     * @returns {string} - Escaped HTML
+     */
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
 </body>
 </html>

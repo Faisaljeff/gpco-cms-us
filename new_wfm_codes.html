@@ -1,14 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ===========================================
+         New WFM Codes Page - GPCO CMS US
+         ===========================================
+         This page displays workforce management codes
+         loaded from CSV data. Features:
+         - CSV data loading with PapaParse
+         - Wide table layout (95% width)
+         - Optimized column widths
+         - Loading states and error handling
+         - XSS protection for data display
+         - Self-hosted fonts and icons
+         =========================================== -->
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New WFM Codes - GPCO CMS US</title>
+    
+    <!-- Stylesheets: Self-hosted fonts and icons for security -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="fonts/inter-font.css">
     <link rel="stylesheet" href="fonts/font-awesome-self-hosted.css">
+    
     <style>
-        /* Page-specific styles for WFM Codes */
+        /* ===========================================
+           WFM CODES PAGE STYLING
+           ===========================================
+           Optimized for wide tables with many columns
+           =========================================== */
         .wfm-codes-container {
             max-width: 95%;
             margin: 0 auto;
@@ -172,6 +192,11 @@
     </style>
 </head>
 <body>
+    <!-- ===========================================
+         HEADER SECTION
+         ===========================================
+         Standard header with clickable logo linking to home page
+         =========================================== -->
     <header class="header">
         <div class="container">
             <div class="logo">
@@ -186,6 +211,11 @@
     </header>
 
     <main class="main">
+        <!-- ===========================================
+             WFM CODES CONTAINER
+             ===========================================
+             Main content area for WFM codes display
+             =========================================== -->
         <div class="wfm-codes-container">
             <div class="page-header">
                 <h1 class="page-title">New WFM Codes</h1>
@@ -196,6 +226,7 @@
                 This page displays the latest WFM codes and their descriptions for reference.
             </div>
 
+            <!-- Data container with loading states -->
             <div id="dataContainer">
                 <div class="loading-container">
                     <div class="loading-spinner"></div>
@@ -205,10 +236,29 @@
         </div>
     </main>
 
+    <!-- ===========================================
+         JAVASCRIPT FILES
+         ===========================================
+         papaparse.min.js: CSV parsing library
+         time-display.js: EST/IST time display
+         =========================================== -->
     <script src="papaparse.min.js"></script>
+    <script src="time-display.js"></script>
+    
     <script>
+        /* ===========================================
+           WFM CODES JAVASCRIPT
+           ===========================================
+           Handles CSV data loading, parsing, and display
+           for workforce management codes
+           =========================================== */
+
         const DATA_FILE_URL = 'new_wfm_codes.csv';
 
+        /**
+         * Load CSV data and display the WFM codes table
+         * Handles loading states, error states, and data parsing
+         */
         async function loadData() {
             try {
                 const response = await fetch(DATA_FILE_URL);

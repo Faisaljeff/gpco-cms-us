@@ -1,8 +1,22 @@
-// Simple time display for EST and IST without CDN
+/* ===========================================
+   Time Display Module - GPCO CMS US
+   ===========================================
+   Displays current EST and IST time in the top-left corner
+   of all pages. Features:
+   - No CDN dependencies (pure JavaScript)
+   - Real-time updates every second
+   - Compact, blended design
+   - EST (UTC-5) and IST (UTC+5:30) time zones
+   - Smooth animations and hover effects
+   =========================================== */
+
 (function() {
     'use strict';
     
-    // Create time display element
+    /**
+     * Create the time display element with styling
+     * @returns {HTMLElement} The time display container
+     */
     function createTimeDisplay() {
         const timeContainer = document.createElement('div');
         timeContainer.id = 'time-display';
@@ -23,7 +37,7 @@
             animation: slideInFromLeft 0.5s ease-out;
         `;
         
-        // Add CSS animation
+        // Add CSS animations and hover effects
         if (!document.querySelector('#time-display-styles')) {
             const style = document.createElement('style');
             style.id = 'time-display-styles';
@@ -48,6 +62,7 @@
             document.head.appendChild(style);
         }
         
+        // Create grid layout for time display
         const timeContent = document.createElement('div');
         timeContent.style.cssText = `
             display: grid;
@@ -56,7 +71,7 @@
             align-items: center;
         `;
         
-        // EST Label
+        // EST Label (Eastern Standard Time)
         const estLabel = document.createElement('div');
         estLabel.style.cssText = `
             font-weight: 600;
@@ -67,7 +82,7 @@
         `;
         estLabel.textContent = 'EST';
         
-        // EST Time
+        // EST Time Display
         const estTime = document.createElement('div');
         estTime.id = 'est-time';
         estTime.style.cssText = `
@@ -80,7 +95,7 @@
         `;
         estTime.textContent = '--:--:--';
         
-        // IST Label
+        // IST Label (Indian Standard Time)
         const istLabel = document.createElement('div');
         istLabel.style.cssText = `
             font-weight: 600;
@@ -91,7 +106,7 @@
         `;
         istLabel.textContent = 'IST';
         
-        // IST Time
+        // IST Time Display
         const istTime = document.createElement('div');
         istTime.id = 'ist-time';
         istTime.style.cssText = `
@@ -113,7 +128,12 @@
         return timeContainer;
     }
     
-    // Format time with timezone offset
+    /**
+     * Format time with timezone offset
+     * @param {Date} date - The date object
+     * @param {number} offsetHours - Timezone offset in hours
+     * @returns {string} - Formatted time string (HH:MM:SS)
+     */
     function formatTime(date, offsetHours) {
         const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
         const targetTime = new Date(utc + (offsetHours * 3600000));
@@ -126,7 +146,9 @@
         });
     }
     
-    // Update time display
+    /**
+     * Update the time display with current EST and IST times
+     */
     function updateTime() {
         const now = new Date();
         
@@ -144,9 +166,12 @@
         if (istElement) istElement.textContent = istTime;
     }
     
-    // Initialize time display
+    /**
+     * Initialize the time display system
+     * Creates the display element and starts the update interval
+     */
     function initTimeDisplay() {
-        // Check if time display already exists
+        // Check if time display already exists to prevent duplicates
         if (document.getElementById('time-display')) {
             return;
         }
@@ -157,7 +182,7 @@
         // Update immediately
         updateTime();
         
-        // Update every second
+        // Update every second for real-time display
         setInterval(updateTime, 1000);
     }
     

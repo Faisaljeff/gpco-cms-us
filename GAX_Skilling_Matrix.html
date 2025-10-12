@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ===========================================
+         GAX Skilling Matrix Page - GPCO CMS US
+         ===========================================
+         This page displays employee skill matrices loaded from CSV data.
+         Features:
+         - CSV data loading with PapaParse
+         - Hierarchical skill matrix display (3-row format)
+         - Color-coded skill levels (0-10 scale)
+         - Compact, minimal design
+         - XSS protection for data display
+         - Self-hosted fonts and icons
+         =========================================== -->
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Content Security Policy: Prevents XSS attacks -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+    
     <title>GAX Skilling Matrix - GPCO CMS US</title>
+    
+    <!-- Stylesheets: Self-hosted fonts and icons for security -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="fonts/inter-font.css">
     <link rel="stylesheet" href="fonts/font-awesome-self-hosted.css">
+    
+    <!-- CSV parsing library -->
     <script src="./papaparse.min.js"></script>
+    
     <style>
-        /* Clean Minimal GAX Skilling Matrix Styling */
+        /* ===========================================
+           GAX SKILLING MATRIX STYLING
+           ===========================================
+           Clean, minimal design for skill matrix display
+           =========================================== */
         .gax-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -246,6 +271,11 @@
     </style>
 </head>
 <body>
+    <!-- ===========================================
+         HEADER SECTION
+         ===========================================
+         Standard header with navigation back to home page
+         =========================================== -->
     <header class="header">
         <div class="container">
             <div class="logo">
@@ -260,16 +290,23 @@
     </header>
 
     <main class="main">
+        <!-- ===========================================
+             GAX SKILLING MATRIX CONTAINER
+             ===========================================
+             Main content area for skill matrix display
+             =========================================== -->
         <div class="gax-container">
             <div class="gax-header">
                 <h1 class="gax-title">GAX Skilling Matrix</h1>
                 <p class="gax-subtitle">Skill assessment and tracking dashboard</p>
             </div>
 
+            <!-- Important note for leadership -->
             <div class="header-note">
                 <p>Citrix= needs to be informed by leadership of if CCP is still using citrix or not</p>
             </div>
 
+            <!-- Data container with loading states -->
             <div id="dataContainer">
                 <div class="loading-container">
                     <div class="spinner"></div>
@@ -279,15 +316,42 @@
         </div>
     </main>
 
+    <!-- ===========================================
+         JAVASCRIPT FILES
+         ===========================================
+         time-display.js: EST/IST time display
+         =========================================== -->
+    <script src="time-display.js"></script>
+    
     <script>
+        /* ===========================================
+           GAX SKILLING MATRIX JAVASCRIPT
+           ===========================================
+           Handles CSV data loading, parsing, and display
+           for the skill matrix. Uses 3-row format:
+           Row 1: Section heading
+           Row 2: Skill names (headers)
+           Row 3: Skill levels (values)
+           =========================================== */
+
         const DATA_FILE_URL = './gax_skilling_matrix_sample.csv'; // Sample CSV file for testing
 
+        /**
+         * Show message to user (for debugging/notifications)
+         * @param {string} message - Message to display
+         * @param {string} type - Message type (error, success, etc.)
+         */
         function showMessage(message, type) {
             const msgDiv = document.getElementById('message');
             msgDiv.className = type;
             msgDiv.innerHTML = message;
         }
 
+        /**
+         * Get CSS class for skill level based on numeric value
+         * @param {string|number} value - Skill level value
+         * @returns {string} - CSS class name
+         */
         function getSkillLevelClass(value) {
             const numValue = parseInt(value);
             if (numValue >= 8) return 'skill-level high';
@@ -295,6 +359,11 @@
             return 'skill-level low';
         }
 
+        /**
+         * Format skill value with appropriate styling
+         * @param {string|number} value - Skill level value
+         * @returns {string} - Formatted HTML with styling
+         */
         function formatSkillValue(value) {
             const numValue = parseInt(value);
             if (isNaN(numValue)) return value;
@@ -302,10 +371,16 @@
             return `<span class="${getSkillLevelClass(value)}">${value}</span>`;
         }
 
+        /**
+         * Group CSV data by sections using 3-row format
+         * @param {Array} data - Raw CSV data array
+         * @returns {Object} - Grouped sections with headers and values
+         */
         function groupDataBySection(data) {
             const sections = {};
             
             // Process data in groups of 3 rows per section
+            // Row 1: Section heading, Row 2: Headers, Row 3: Values
             for (let i = 0; i < data.length; i += 3) {
                 if (i + 2 < data.length) {
                     const sectionRow = data[i];
@@ -377,6 +452,10 @@
             return sections;
         }
 
+        /**
+         * Display the parsed CSV data in the skill matrix format
+         * @param {Array} data - Raw CSV data array
+         */
         function displayData(data) {
             if (!data || data.length === 0) {
                 document.getElementById('dataContainer').innerHTML = `
@@ -394,7 +473,7 @@
             // Debug: Log the raw data
             console.log('Raw CSV data:', data);
 
-            // Group data by sections
+            // Group data by sections using 3-row format
             const sections = groupDataBySection(data);
             console.log('Parsed sections:', sections);
             
@@ -466,6 +545,10 @@
             container.innerHTML = sectionsHTML;
         }
 
+        /**
+         * Load CSV data and display the skill matrix
+         * Handles loading states, error states, and data parsing
+         */
         async function loadData() {
             try {
                 const response = await fetch(DATA_FILE_URL);

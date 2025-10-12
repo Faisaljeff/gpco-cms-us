@@ -1,20 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ===========================================
+         GPCO CMS US - Main Dashboard Page
+         ===========================================
+         This is the main entry point for the GPCO Content Management System.
+         Features:
+         - Global search functionality
+         - Quick access navigation
+         - Module cards for different tools
+         - Self-hosted fonts and icons (no CDN dependencies)
+         - Content Security Policy for enhanced security
+         =========================================== -->
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Content Security Policy: Prevents XSS attacks and controls resource loading -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+    
     <title>GPCO CMS US - Content Management System</title>
+    
+    <!-- Stylesheets: Self-hosted fonts and icons for security -->
     <link rel="stylesheet" href="styles.css?v=inline-fix-1">
     <link rel="stylesheet" href="fonts/inter-font.css">
     <link rel="stylesheet" href="fonts/font-awesome-self-hosted.css">
 </head>
 <body>
+    <!-- ===========================================
+         HEADER SECTION
+         ===========================================
+         Contains the main navigation and branding.
+         Simplified to only show "Home" navigation option.
+         =========================================== -->
     <header class="header">
         <div class="container">
             <div class="logo">
                 <h1>GPCO CMS US</h1>
             </div>
+            <!-- Main Navigation: Simplified to Home only -->
             <nav class="nav">
                 <ul class="nav-list">
                     <li><a href="index.html" class="nav-link active">Home</a></li>
@@ -24,11 +48,19 @@
     </header>
 
     <main class="main">
+        <!-- ===========================================
+             HERO SECTION
+             ===========================================
+             Main landing area with title, subtitle, and global search.
+             The search functionality allows users to find content across all pages.
+             =========================================== -->
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
                     <h1 class="hero-title">Welcome to GPCO CMS US</h1>
                     <p class="hero-subtitle">Your comprehensive content management system for streamlined operations</p>
+                    
+                    <!-- Global Search: Searches across all pages and modules -->
                     <div class="hero-search" role="search">
                         <input id="searchInputInline" class="hero-search-input" type="text" placeholder="Search anything (Press / or Ctrl+K)" aria-label="Inline search" />
                         <div id="inlineSearchResults" class="search-results" aria-live="polite"></div>
@@ -37,7 +69,12 @@
             </div>
         </section>
 
-        <!-- Quick Access Section -->
+        <!-- ===========================================
+             QUICK ACCESS SECTION
+             ===========================================
+             Provides direct links to frequently used tools and pages.
+             Each link has an icon and opens the respective page.
+             =========================================== -->
         <section id="quick" class="quick-links">
             <div class="container">
                 <div class="section-header">
@@ -45,14 +82,23 @@
                     <p>Jump directly to frequently used areas</p>
                 </div>
                 <div class="quick-links-grid">
+                    <!-- GAX Skilling Matrix: Employee skill tracking -->
                     <a class="quick-link" href="GAX_Skilling_Matrix.html"><i class="fas fa-cogs" aria-hidden="true"></i><span>GAX</span></a>
+                    <!-- Important Links: External tools and resources -->
                     <a class="quick-link" href="important-links.html"><i class="fas fa-link" aria-hidden="true"></i><span>Important Links</span></a>
+                    <!-- Break Structure: Break time management -->
                     <a class="quick-link" href="break-structure.html"><i class="fas fa-clock" aria-hidden="true"></i><span>Break Structure</span></a>
                 </div>
             </div>
         </section>
 
-        <!-- Modules Section -->
+        <!-- ===========================================
+             MODULES SECTION
+             ===========================================
+             Main dashboard cards for different system modules.
+             Each card is clickable and navigates to the respective page.
+             Cards include: Schedule, Tasks, GAX, WFM Codes, SOPs, and Processes.
+             =========================================== -->
         <section class="dashboard" id="modules">
             <div class="container">
                 <div class="section-header">
@@ -60,39 +106,43 @@
                     <p>Core areas at a glance</p>
                 </div>
                 <div class="dashboard-grid">
+                    <!-- Schedule Management Card -->
                     <div class="card" onclick="navigateTo('schedule-file.html')">
                         <div class="card-icon">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
                         <h3 class="card-title">Schedule</h3>
-<p class="card-description">Manage schedules</p>
+                        <p class="card-description">Manage schedules</p>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
                         </div>
                     </div>
 
+                    <!-- Task Assignment Card -->
                     <div class="card" onclick="navigateTo('task-assignment.html')">
                         <div class="card-icon">
                             <i class="fas fa-tasks"></i>
                         </div>
                         <h3 class="card-title">Tasks</h3>
-<p class="card-description">Assign and track</p>
+                        <p class="card-description">Assign and track</p>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
                         </div>
                     </div>
 
+                    <!-- Performance & Data Insights Card -->
                     <div class="card" onclick="navigateTo('pdi.html')">
                         <div class="card-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
                         <h3 class="card-title">P&DI</h3>
-<p class="card-description">Performance insights</p>
+                        <p class="card-description">Performance insights</p>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
                         </div>
                     </div>
 
+                    <!-- GAX Skilling Matrix Card -->
                     <div class="card" onclick="navigateTo('GAX_Skilling_Matrix.html')">
                         <div class="card-icon">
                             <i class="fas fa-cogs"></i>
@@ -104,6 +154,7 @@
                         </div>
                     </div>
 
+                    <!-- WFM Codes Card -->
                     <div class="card" onclick="navigateTo('new_wfm_codes.html')">
                         <div class="card-icon">
                             <i class="fas fa-code"></i>
@@ -115,12 +166,14 @@
                         </div>
                     </div>
 
+                    <!-- SOPs Card: Special card with multiple regional buttons -->
                     <div class="card sop-card">
                         <div class="card-icon">
                             <i class="fas fa-book"></i>
                         </div>
                         <h3 class="card-title">SOPs</h3>
                         <p class="card-description">Regional guides</p>
+                        <!-- Regional SOP buttons for different locations -->
                         <div class="sop-buttons">
                             <button class="sop-btn" onclick="navigateTo('sop-delhi.html')">Delhi</button>
                             <button class="sop-btn" onclick="navigateTo('sop-manila.html')">Manila</button>
@@ -128,6 +181,7 @@
                         </div>
                     </div>
 
+                    <!-- Break Structure Card -->
                     <div class="card" onclick="navigateTo('break-structure.html')">
                         <div class="card-icon">
                             <i class="fas fa-clock"></i>
@@ -139,6 +193,7 @@
                         </div>
                     </div>
 
+                    <!-- GOCM Processes Card -->
                     <div class="card" onclick="navigateTo('gocm-processes.html')">
                         <div class="card-icon">
                             <i class="fas fa-list-check"></i>
@@ -150,6 +205,7 @@
                         </div>
                     </div>
 
+                    <!-- Important Links Card -->
                     <div class="card" onclick="navigateTo('important-links.html')">
                         <div class="card-icon">
                             <i class="fas fa-link"></i>
@@ -165,8 +221,12 @@
         </section>
     </main>
 
-    
-
+    <!-- ===========================================
+         JAVASCRIPT FILES
+         ===========================================
+         script.js: Main functionality including search, navigation, and page interactions
+         time-display.js: Displays current EST and IST time in the top-left corner
+         =========================================== -->
     <script src="script.js"></script>
     <script src="time-display.js"></script>
 </body>

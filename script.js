@@ -34,6 +34,7 @@ function navigateTo(page) {
         'sop-manila.html',
         'sop-us.html',
         'important-links.html',
+        'policies.html',
         'break-structure.html',
         'gocm-processes.html'
     ];
@@ -342,6 +343,7 @@ window.addEventListener('load', function() {
     { title: 'Break Structure', url: 'break-structure.html' },
     { title: 'GOCM Processes', url: 'gocm-processes.html' },
     { title: 'Important Links', url: 'important-links.html' },
+    { title: 'Company Policies', url: 'policies.html' },
     { title: 'Performance', url: 'performance.html' },
     { title: 'CSV File Viewer', url: 'csv_file_viewer.html' },
     { title: 'Python HTML Doc', url: 'python_html_doc.html' }

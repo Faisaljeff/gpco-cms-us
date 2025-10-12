@@ -65,15 +65,14 @@
             font-style: italic;
         }
 
-        /* Table Styling */
+        /* Table Styling with Sticky Header */
+        /* The table header will remain fixed at the top when scrolling through data */
         .wfm-table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            margin: 1rem 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
+            margin: 0; /* Remove margin since wrapper handles spacing */
+            border-radius: 0; /* Remove border radius since wrapper handles it */
         }
 
         .wfm-table th {
@@ -86,6 +85,11 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid #004a8f;
         }
 
         .wfm-table th:first-child {
@@ -156,9 +160,13 @@
 
         /* Responsive Design */
         .table-wrapper {
-            overflow-x: auto;
+            overflow: auto;
             margin: 1rem 0;
             width: 100%;
+            max-height: 70vh; /* Set maximum height to enable vertical scrolling */
+            border: 1px solid #e6eef5;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .wfm-table {

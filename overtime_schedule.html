@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overtime Schedule</title>
+  <link rel="stylesheet" href="Assets/styles.css" />
+  <style>
+    .ot-container { max-width: 95%; margin: 30px auto; padding: 0 16px; }
+    .ot-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .ot-header h1 { margin: 0 12px 0 0; font-size: 22px; }
+    .ot-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .ot-controls .btn { padding: 6px 10px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; }
+    .ot-controls .btn:hover { background: #eef2f7; }
+    .ot-controls input[type="date"], .ot-controls select { padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; }
+    .ot-panels { display: block; }
+    .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .card h2 { font-size: 18px; margin: 0; padding: 12px 14px; border-bottom: 1px solid #eef2f7; }
+    .card .card-body { padding: 10px 14px; max-height: 70vh; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #eef2f7; }
+    th { background: #f8fafc; position: sticky; top: 0; z-index: 1; }
+    .muted { color: #6b7280; font-size: 12px; }
+    /* Code Blue styling */
+    td.code-blue-yes { background: #e6f0ff; color: #0b5bd3; font-weight: 600; }
+    td.code-blue-no { background: transparent; color: inherit; }
+    /* Analytics section */
+    .analytics { margin-top: 24px; }
+    .analytics-controls { display: flex; gap: 16px; align-items: center; padding: 12px 14px; flex-wrap: wrap; }
+    .analytics-period, .analytics-date, .analytics-scope { display: flex; gap: 8px; align-items: center; }
+    .analytics-date input[type="date"] { padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; }
+    .badge { display:inline-block; padding:4px 12px; border-radius:12px; font-size:12px; background:#e6f0ff; color:#0b5bd3; font-weight:600; }
+    .date-display { font-weight: 600; color: #1f2937; }
+    .coverage-good { color: #059669; font-weight: 600; }
+    .coverage-warning { color: #d97706; font-weight: 600; }
+    .coverage-poor { color: #dc2626; font-weight: 600; }
+    .gap-positive { color: #059669; }
+    .gap-negative { color: #dc2626; }
+  </style>
+</head>
+<body>
+  <div class="ot-container">
+    <div class="ot-header">
+      <h1>Overtime Schedule</h1>
+      <div class="ot-controls" aria-label="Overtime controls">
+        <button id="prevDay" class="btn" title="Previous day">◀</button>
+        <input id="datePicker" type="date" />
+        <button id="nextDay" class="btn" title="Next day">▶</button>
+        <span class="muted" id="weekLabel"></span>
+        <select id="buFilter">
+          <option value="ALL">All Business Units</option>
+          <option>SBS</option>
+          <option>SBS DGT</option>
+          <option>LMS</option>
+          <option>SBR</option>
+          <option>CFST</option>
+          <option>LMS DGT</option>
+          <option>PCET</option>
+        </select>
+        <button id="prevWeek" class="btn" title="Previous week">◀ Week</button>
+        <button id="nextWeek" class="btn" title="Next week">Week ▶</button>
+      </div>
+    </div>
+
+    <div class="ot-panels">
+      <div class="card" id="overtimeCard">
+        <h2>Overtime Schedule <span class="badge" id="mainDateDisplay">Day</span></h2>
+        <div class="card-body">
+          <table id="overtimeTable" aria-label="Overtime Schedule">
+            <thead id="otHead">
+              <tr>
+                <th>Business Unit</th>
+                <th>Overtime Slot 1 (EST)</th>
+                <th>Overtime Slot 1 (IST)</th>
+                <th>Overtime Slot 2 (EST)</th>
+                <th>Overtime Slot 2 (IST)</th>
+                <th>Preplan Code Blue</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Analytics Section: New content area -->
+      <div class="card analytics" id="analyticsCard">
+        <h2>Overtime Analytics</h2>
+        <div class="analytics-controls">
+          <div class="analytics-period">
+            <label for="analyticsView" class="muted">Period:</label>
+            <select id="analyticsView">
+              <option value="day">Day</option>
+              <option value="week">Week</option>
+              <option value="month">Month</option>
+            </select>
+          </div>
+          <div class="analytics-date" id="analyticsDateControls">
+            <label for="analyticsDatePicker" class="muted">Date:</label>
+            <input id="analyticsDatePicker" type="date" />
+            <button id="analyticsPrev" class="btn" title="Previous">◀</button>
+            <button id="analyticsNext" class="btn" title="Next">▶</button>
+          </div>
+          <div class="analytics-scope">
+            <span class="badge" id="analyticsScope">Day</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <table id="analyticsTable" aria-label="Overtime analytics">
+            <thead>
+              <tr>
+                <th>Business Unit</th>
+                <th>Hours Required</th>
+                <th>Hours Delivered</th>
+                <th>Coverage %</th>
+                <th>Gap (Hours)</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="Assets/papaparse.min.js"></script>
+  <script>
+    (function() {
+      const CSV_PATH = 'Database/overtime_schedule.csv';
+      const DELIVERED_CSV_PATH = 'Database/overtime_delivered.csv';
+      const datePicker = document.getElementById('datePicker');
+      const prevDayBtn = document.getElementById('prevDay');
+      const nextDayBtn = document.getElementById('nextDay');
+      const prevWeekBtn = document.getElementById('prevWeek');
+      const nextWeekBtn = document.getElementById('nextWeek');
+      const buFilter = document.getElementById('buFilter');
+      const weekLabel = document.getElementById('weekLabel');
+      const tableHead = document.getElementById('otHead');
+      const analyticsView = document.getElementById('analyticsView');
+      const analyticsScope = document.getElementById('analyticsScope');
+      const analyticsDatePicker = document.getElementById('analyticsDatePicker');
+      const analyticsPrev = document.getElementById('analyticsPrev');
+      const analyticsNext = document.getElementById('analyticsNext');
+      const mainDateDisplay = document.getElementById('mainDateDisplay');
+
+      let allRows = [];
+      let deliveredRows = [];
+      let viewMode = 'day'; // 'day' | 'week'
+
+      function formatDateISO(d) { return d.toISOString().slice(0,10); }
+
+      function setToday() {
+        const now = new Date();
+        datePicker.value = formatDateISO(now);
+        analyticsDatePicker.value = formatDateISO(now);
+        updateWeekLabel(now);
+        viewMode = 'day';
+        render();
+        renderAnalytics();
+      }
+
+      function parseCSV(path) {
+        return new Promise((resolve, reject) => {
+          Papa.parse(path, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: res => resolve(res.data),
+            error: err => reject(err)
+          });
+        });
+      }
+
+      function formatDateDisplay(dateStr) {
+        const d = new Date(dateStr);
+        const dayName = d.toLocaleDateString('en-US', { weekday: 'long' });
+        const dateFormatted = d.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        return `${dayName}, ${dateFormatted}`;
+      }
+
+      function toISTSlot(estSlot, dateStr) {
+        if (!estSlot) return '';
+        const [s, e] = estSlot.split('-');
+        const startIST = convertToIST(dateStr, s);
+        const endIST = convertToIST(dateStr, e);
+        return `${startIST}-${endIST}`;
+      }
+
+      function convertToIST(dateStr, timeHHMM) {
+        const [year, month, day] = dateStr.split('-').map(Number);
+        const [hour, minute] = timeHHMM.split(':').map(Number);
+        const estOffsetMinutes = getESTOffsetMinutes(year, month, day);
+        const utcMs = Date.UTC(year, month - 1, day, hour, minute) + estOffsetMinutes * 60 * 1000;
+        const istMs = utcMs + 330 * 60 * 1000;
+        const istDate = new Date(istMs);
+        const hh = String(istDate.getUTCHours()).padStart(2, '0');
+        const mm = String(istDate.getUTCMinutes()).padStart(2, '0');
+        return `${hh}:${mm}`;
+      }
+
+      function getESTOffsetMinutes(year, month, day) {
+        const date = new Date(Date.UTC(year, month - 1, day, 12, 0));
+        const marchSecondSunday = getNthWeekdayOfMonthUTC(year, 2, 0, 2);
+        const novemberFirstSunday = getNthWeekdayOfMonthUTC(year, 10, 0, 1);
+        const inDST = date >= marchSecondSunday && date < novemberFirstSunday;
+        return inDST ? 240 : 300;
+      }
+
+      function getNthWeekdayOfMonthUTC(year, monthIndex, weekday, n) {
+        const firstOfMonth = new Date(Date.UTC(year, monthIndex, 1));
+        const firstWeekday = (7 + weekday - firstOfMonth.getUTCDay()) % 7;
+        const dayOfMonth = 1 + firstWeekday + (n - 1) * 7;
+        return new Date(Date.UTC(year, monthIndex, dayOfMonth, 0, 0));
+      }
+
+      function updateWeekLabel(baseDate) {
+        const d = new Date(baseDate);
+        const day = d.getDay();
+        const mondayOffset = (day === 0 ? -6 : 1 - day);
+        const monday = new Date(d); monday.setDate(d.getDate() + mondayOffset);
+        const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+        const fmt = (x) => x.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        weekLabel.textContent = `${fmt(monday)} - ${fmt(sunday)}`;
+      }
+
+      function shiftDate(days) {
+        const d = new Date(datePicker.value);
+        d.setDate(d.getDate() + days);
+        datePicker.value = formatDateISO(d);
+        updateWeekLabel(d);
+        viewMode = 'day';
+        render();
+        renderAnalytics();
+      }
+
+      function shiftWeek(weeks) { shiftDate(7 * weeks); viewMode = 'week'; renderWeek(); renderAnalytics(); }
+
+      function rowsForDate(dateStr) { return allRows.filter(r => r.Date === dateStr); }
+
+      function rowsForWeek(dateStr) {
+        const d = new Date(dateStr);
+        const day = d.getDay();
+        const mondayOffset = (day === 0 ? -6 : 1 - day);
+        const monday = new Date(d); monday.setDate(d.getDate() + mondayOffset);
+        const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+        return allRows.filter(r => { const rd = new Date(r.Date); return rd >= monday && rd <= sunday; });
+      }
+
+      function rowsForMonth(dateStr){
+        const d = new Date(dateStr);
+        const year = d.getFullYear();
+        const month = d.getMonth();
+        return allRows.filter(r=>{ const rd=new Date(r.Date); return rd.getFullYear()===year && rd.getMonth()===month; });
+      }
+
+      function setHeader(isWeek){
+        tableHead.innerHTML = isWeek ? `
+          <tr>
+            <th>Date</th>
+            <th>Business Unit</th>
+            <th>Overtime Slot 1 (EST)</th>
+            <th>Overtime Slot 1 (IST)</th>
+            <th>Overtime Slot 2 (EST)</th>
+            <th>Overtime Slot 2 (IST)</th>
+            <th>Preplan Code Blue</th>
+          </tr>` : `
+          <tr>
+            <th>Business Unit</th>
+            <th>Overtime Slot 1 (EST)</th>
+            <th>Overtime Slot 1 (IST)</th>
+            <th>Overtime Slot 2 (EST)</th>
+            <th>Overtime Slot 2 (IST)</th>
+            <th>Preplan Code Blue</th>
+          </tr>`;
+      }
+
+      function renderTables(rows, isWeek) {
+        setHeader(isWeek);
+        const bu = buFilter.value;
+        const tbody = document.querySelector('#overtimeTable tbody');
+        tbody.innerHTML = '';
+        const filtered = rows.filter(r => bu === 'ALL' ? true : r.LLOB === bu);
+        
+        // Update main date display
+        const currentDate = datePicker.value;
+        const dateDisplay = formatDateDisplay(currentDate);
+        const modeText = viewMode === 'week' ? 'Week' : 'Day';
+        mainDateDisplay.textContent = `${modeText} - ${dateDisplay}`;
+        
+        filtered.forEach(r => {
+          const val = (r['Preplan Code Blue']||'').trim();
+          const cls = /^yes$/i.test(val) ? 'code-blue-yes' : 'code-blue-no';
+          const tr = document.createElement('tr');
+          tr.innerHTML = isWeek ? `
+            <td>${escapeHtml(r.Date)}</td>
+            <td>${escapeHtml(r.LLOB)}</td>
+            <td>${escapeHtml(r['Overtime Slot 1 (EST)']||'')}</td>
+            <td>${escapeHtml(toISTSlot(r['Overtime Slot 1 (EST)'], r.Date))}</td>
+            <td>${escapeHtml(r['Overtime Slot 2 (EST)']||'')}</td>
+            <td>${escapeHtml(toISTSlot(r['Overtime Slot 2 (EST)'], r.Date))}</td>
+            <td class="${cls}">${escapeHtml(val)}</td>
+          ` : `
+            <td>${escapeHtml(r.LLOB)}</td>
+            <td>${escapeHtml(r['Overtime Slot 1 (EST)']||'')}</td>
+            <td>${escapeHtml(toISTSlot(r['Overtime Slot 1 (EST)'], r.Date))}</td>
+            <td>${escapeHtml(r['Overtime Slot 2 (EST)']||'')}</td>
+            <td>${escapeHtml(toISTSlot(r['Overtime Slot 2 (EST)'], r.Date))}</td>
+            <td class="${cls}">${escapeHtml(val)}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function render() { renderTables(rowsForDate(datePicker.value), false); }
+      function renderWeek() { renderTables(rowsForWeek(datePicker.value), true); }
+
+      // ---------- Analytics ----------
+      function parseSlotHours(slot){
+        if(!slot) return 0;
+        const m = slot.match(/^(\d{2}):(\d{2})-(\d{2}):(\d{2})$/);
+        if(!m) return 0;
+        const sh = Number(m[1]), sm = Number(m[2]), eh = Number(m[3]), em = Number(m[4]);
+        const start = sh*60 + sm; const end = eh*60 + em;
+        const diff = Math.max(0, end - start);
+        return +(diff/60).toFixed(2);
+      }
+
+      function computeTotals(rows){
+        const totals = {};
+        rows.forEach(r=>{
+          const bu = r.LLOB || 'Unknown';
+          const h = parseSlotHours(r['Overtime Slot 1 (EST)']) + parseSlotHours(r['Overtime Slot 2 (EST)']);
+          totals[bu] = (totals[bu]||0) + h;
+        });
+        return totals;
+      }
+
+      function renderAnalytics(){
+        const scope = analyticsView.value;
+        const dateStr = analyticsDatePicker.value;
+        const dateDisplay = formatDateDisplay(dateStr);
+        analyticsScope.textContent = `${scope.charAt(0).toUpperCase() + scope.slice(1)} - ${dateDisplay}`;
+        
+        // Get scheduled hours data
+        let rows = [];
+        if(scope==='day') rows = rowsForDate(dateStr);
+        else if(scope==='week') rows = rowsForWeek(dateStr);
+        else rows = rowsForMonth(dateStr);
+        const scheduledTotals = computeTotals(rows);
+
+        // Get delivered hours data
+        let deliveredData = [];
+        if(scope==='day') deliveredData = deliveredRows.filter(r => r.Date === dateStr);
+        else if(scope==='week') deliveredData = deliveredRows.filter(r => {
+          const d = new Date(dateStr);
+          const day = d.getDay();
+          const mondayOffset = (day === 0 ? -6 : 1 - day);
+          const monday = new Date(d); monday.setDate(d.getDate() + mondayOffset);
+          const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+          const rd = new Date(r.Date);
+          return rd >= monday && rd <= sunday;
+        });
+        else deliveredData = deliveredRows.filter(r => {
+          const d = new Date(dateStr);
+          const rd = new Date(r.Date);
+          return rd.getFullYear() === d.getFullYear() && rd.getMonth() === d.getMonth();
+        });
+        
+        const deliveredTotals = {};
+        deliveredData.forEach(r => {
+          const bu = r.LLOB || 'Unknown';
+          const hours = parseFloat(r['Overtime Delivered']) || 0;
+          deliveredTotals[bu] = (deliveredTotals[bu] || 0) + hours;
+        });
+
+        // Combine all business units
+        const allBUs = new Set([...Object.keys(scheduledTotals), ...Object.keys(deliveredTotals)]);
+        
+        const tbody = document.querySelector('#analyticsTable tbody');
+        tbody.innerHTML = '';
+        
+        Array.from(allBUs).sort().forEach(bu => {
+          const required = scheduledTotals[bu] || 0;
+          const delivered = deliveredTotals[bu] || 0;
+          const coverage = required > 0 ? (delivered / required) * 100 : 0;
+          const gap = delivered - required;
+          
+          // Determine coverage styling
+          let coverageClass = 'coverage-poor';
+          if (coverage >= 100) coverageClass = 'coverage-good';
+          else if (coverage >= 80) coverageClass = 'coverage-warning';
+          
+          // Determine gap styling
+          const gapClass = gap >= 0 ? 'gap-positive' : 'gap-negative';
+          const gapText = gap >= 0 ? `+${gap.toFixed(2)}` : gap.toFixed(2);
+          
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${escapeHtml(bu)}</td>
+            <td>${required.toFixed(2)}</td>
+            <td>${delivered.toFixed(2)}</td>
+            <td class="${coverageClass}">${coverage.toFixed(1)}%</td>
+            <td class="${gapClass}">${gapText}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function shiftAnalyticsDate(days) {
+        const d = new Date(analyticsDatePicker.value);
+        d.setDate(d.getDate() + days);
+        analyticsDatePicker.value = formatDateISO(d);
+        renderAnalytics();
+      }
+
+      function escapeHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      prevDayBtn.addEventListener('click', () => shiftDate(-1));
+      nextDayBtn.addEventListener('click', () => shiftDate(1));
+      prevWeekBtn.addEventListener('click', () => { viewMode = 'week'; shiftWeek(-1); });
+      nextWeekBtn.addEventListener('click', () => { viewMode = 'week'; shiftWeek(1); });
+      datePicker.addEventListener('change', () => { updateWeekLabel(new Date(datePicker.value)); viewMode = 'day'; render(); renderAnalytics(); });
+      buFilter.addEventListener('change', () => { viewMode === 'week' ? renderWeek() : render(); });
+      analyticsView.addEventListener('change', renderAnalytics);
+      analyticsDatePicker.addEventListener('change', renderAnalytics);
+      analyticsPrev.addEventListener('click', () => {
+        const scope = analyticsView.value;
+        const days = scope === 'day' ? -1 : scope === 'week' ? -7 : -30;
+        shiftAnalyticsDate(days);
+      });
+      analyticsNext.addEventListener('click', () => {
+        const scope = analyticsView.value;
+        const days = scope === 'day' ? 1 : scope === 'week' ? 7 : 30;
+        shiftAnalyticsDate(days);
+      });
+
+      Promise.all([
+        parseCSV(CSV_PATH),
+        parseCSV(DELIVERED_CSV_PATH)
+      ]).then(([scheduleRows, deliveredData]) => {
+        allRows = scheduleRows;
+        deliveredRows = deliveredData;
+        setToday();
+      }).catch(err => { 
+        console.error('Failed to load CSV files', err); 
+      });
+    })();
+  </script>
+</body>
+</html>

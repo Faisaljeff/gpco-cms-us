@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ===========================================
+         New WFM Codes Page - GPCO CMS US
+         ===========================================
+         This page displays workforce management codes
+         loaded from CSV data. Features:
+         - CSV data loading with PapaParse
+         - Wide table layout (95% width)
+         - Optimized column widths
+         - Loading states and error handling
+         - XSS protection for data display
+         - Self-hosted fonts and icons
+         =========================================== -->
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New WFM Codes - GPCO CMS US</title>
+    
+    <!-- Stylesheets: Self-hosted fonts and icons for security -->
+    <link rel="stylesheet" href="Assets/styles.css">
+    <link rel="stylesheet" href="fonts/inter-font.css">
+    <link rel="stylesheet" href="fonts/font-awesome-self-hosted.css">
+    
+    <style>
+        /* ===========================================
+           WFM CODES PAGE STYLING
+           ===========================================
+           Optimized for wide tables with many columns
+           =========================================== */
+        .wfm-codes-container {
+            max-width: 95%;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #006fcf;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .info-note {
+            background: #f8f9fa;
+            border: 1px solid #e6eef5;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Table Styling with Sticky Header */
+        /* The table header will remain fixed at the top when scrolling through data */
+        .wfm-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin: 0; /* Remove margin since wrapper handles spacing */
+            border-radius: 0; /* Remove border radius since wrapper handles it */
+        }
+
+        .wfm-table th {
+            background: #006fcf;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid #004a8f;
+        }
+
+        .wfm-table th:first-child {
+            min-width: 120px;
+            width: 15%;
+        }
+
+        .wfm-table th:not(:first-child) {
+            min-width: 100px;
+            width: auto;
+        }
+
+        .wfm-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+
+        .wfm-table td:first-child {
+            min-width: 120px;
+            width: 15%;
+            font-weight: 600;
+        }
+
+        .wfm-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .wfm-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Loading and Error States */
+        .loading-container {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #006fcf;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-container {
+            text-align: center;
+            padding: 3rem;
+            color: #dc3545;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        .table-wrapper {
+            overflow: auto;
+            margin: 1rem 0;
+            width: 100%;
+            max-height: calc(100vh - 200px); /* Full viewport height minus header and margins */
+            border: 1px solid #e6eef5;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .wfm-table {
+            width: 100%;
+            min-width: 100%;
+            table-layout: auto;
+        }
+
+        @media (max-width: 768px) {
+            .wfm-codes-container {
+                padding: 1rem;
+                max-width: 100%;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .wfm-table th,
+            .wfm-table td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+
+            .wfm-table th:first-child,
+            .wfm-table td:first-child {
+                min-width: 100px;
+                width: 20%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===========================================
+         HEADER SECTION
+         ===========================================
+         Standard header with clickable logo linking to home page
+         =========================================== -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="index.html" style="color: inherit; text-decoration: none; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">GPCO CMS US</a></h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- ===========================================
+             WFM CODES CONTAINER
+             ===========================================
+             Main content area for WFM codes display
+             =========================================== -->
+        <div class="wfm-codes-container">
+            <div class="page-header">
+                <h1 class="page-title">New WFM Codes</h1>
+                <p class="page-subtitle">Workforce Management Code Reference</p>
+            </div>
+
+            <div class="info-note">
+                This page displays the latest WFM codes and their descriptions for reference.
+            </div>
+
+            <!-- Data container with loading states -->
+            <div id="dataContainer">
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p>Loading WFM codes...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===========================================
+         JAVASCRIPT FILES
+         ===========================================
+         papaparse.min.js: CSV parsing library
+         time-display.js: EST/IST time display
+         =========================================== -->
+    <script src="Assets/papaparse.min.js"></script>
+    <script src="Assets/time-display.js"></script>
+    
+    <script>
+        /* ===========================================
+           WFM CODES JAVASCRIPT
+           ===========================================
+           Handles CSV data loading, parsing, and display
+           for workforce management codes
+           =========================================== */
+
+        const DATA_FILE_URL = 'Database/new_wfm_codes.csv';
+
+        /**
+         * Load CSV data and display the WFM codes table
+         * Handles loading states, error states, and data parsing
+         */
+        async function loadData() {
+            try {
+                const response = await fetch(DATA_FILE_URL);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const csvText = await response.text();
+                
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: results => displayData(results.data),
+                    error: err => {
+                        document.getElementById('dataContainer').innerHTML = `
+                            <div class="error-container">
+                                <div class="error-icon">❌</div>
+                                <h3>Error loading data</h3>
+                                <p>Could not load WFM codes: ${err.message}</p>
+                            </div>
+                        `;
+                    }
+                });
+            } catch (error) {
+                document.getElementById('dataContainer').innerHTML = `
+                    <div class="error-container">
+                        <div class="error-icon">❌</div>
+                        <h3>Error loading data</h3>
+                        <p>Could not fetch WFM codes: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displayData(data) {
+            const container = document.getElementById('dataContainer');
+            
+            if (!data || data.length === 0) {
+                container.innerHTML = `
+                    <div class="error-container">
+                        <div class="error-icon">📋</div>
+                        <h3>No data available</h3>
+                        <p>No WFM codes found in the CSV file.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Get column headers from the first row
+            const headers = Object.keys(data[0]);
+            
+            let tableHTML = `
+                <div class="table-wrapper">
+                    <table class="wfm-table">
+                        <thead>
+                            <tr>
+            `;
+
+            // Create header row
+            headers.forEach(header => {
+                tableHTML += `<th>${header}</th>`;
+            });
+
+            tableHTML += `
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            // Create data rows
+            data.forEach(row => {
+                tableHTML += '<tr>';
+                headers.forEach(header => {
+                    const value = row[header] || '';
+                    tableHTML += `<td>${value}</td>`;
+                });
+                tableHTML += '</tr>';
+            });
+
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+    <script src="Assets/time-display.js"></script>
+</body>
+</html>

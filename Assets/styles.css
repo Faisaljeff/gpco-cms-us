@@ -1,10 +1,32 @@
-/* Reset and Base Styles */
+/* ===========================================
+   GPCO CMS US - Main Stylesheet
+   ===========================================
+   This file contains all the global styles for the GPCO Content Management System.
+   
+   Structure:
+   - Reset and Base Styles
+   - Header and Navigation
+   - Hero Section
+   - Dashboard Cards and Grids
+   - Search Functionality
+   - Links and Tables
+   - Responsive Design
+   - Utility Classes
+   =========================================== */
+
+/* ===========================================
+   RESET AND BASE STYLES
+   ===========================================
+   CSS reset to ensure consistent styling across browsers
+   and base typography and layout settings.
+   =========================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Base body styling with gradient background and typography */
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
@@ -13,13 +35,19 @@ body {
     min-height: 100vh;
 }
 
+/* Container for consistent max-width and centering */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-/* Header Styles */
+/* ===========================================
+   HEADER AND NAVIGATION STYLES
+   ===========================================
+   Sticky header with logo and simplified navigation.
+   Includes styling for the main navigation menu.
+   =========================================== */
 .header {
     background: #ffffff;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
@@ -29,6 +57,7 @@ body {
     border-bottom: 3px solid #006fcf;
 }
 
+/* Header container with flexbox layout */
 .header .container {
     display: flex;
     justify-content: space-between;
@@ -36,6 +65,7 @@ body {
     padding: 1.2rem 20px;
 }
 
+/* Logo styling with brand color */
 .logo h1 {
     color: #006fcf;
     font-size: 1.8rem;
@@ -43,6 +73,7 @@ body {
     letter-spacing: -0.5px;
 }
 
+/* Navigation list with horizontal layout */
 .nav-list {
     display: flex;
     list-style: none;
@@ -50,6 +81,7 @@ body {
     justify-content: flex-end;
 }
 
+/* Navigation link styling with hover effects */
 .nav-link {
     text-decoration: none;
     color: #333;
@@ -61,6 +93,7 @@ body {
     border: 1px solid transparent;
 }
 
+/* Active and hover states for navigation links */
 .nav-link:hover,
 .nav-link.active {
     color: #006fcf;
@@ -69,7 +102,11 @@ body {
     transform: translateY(-1px);
 }
 
-/* Hero Section */
+/* ===========================================
+   HERO SECTION STYLES
+   ===========================================
+   Main landing area with gradient background, title, and search functionality.
+   =========================================== */
 .hero {
     background: linear-gradient(135deg, #006fcf 0%, #004a8f 100%);
     color: white;
@@ -111,11 +148,17 @@ body {
     animation: fadeInUp 1s ease-out 0.2s both;
 }
 
-/* Dashboard Section */
+/* ===========================================
+   DASHBOARD AND CARD STYLES
+   ===========================================
+   Main dashboard grid layout and individual card styling.
+   Cards are clickable and have hover effects.
+   =========================================== */
 .dashboard {
     padding: 2rem 0;
 }
 
+/* Responsive grid layout for dashboard cards */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* was 260px */
@@ -123,7 +166,7 @@ body {
     margin-top: 1.2rem; /* slightly tighter */
 }
 
-/* Card Styles */
+/* Individual card styling with hover effects */
 .card {
      background: white;
      border-radius: 12px;
@@ -202,7 +245,14 @@ body {
     font-size: 1.05rem;
 }
 
-/* Search Modal and Button */
+/* ===========================================
+   SEARCH FUNCTIONALITY STYLES
+   ===========================================
+   Global search modal, input fields, and search results styling.
+   Includes both modal search and inline hero search.
+   =========================================== */
+
+/* Search button styling */
 .search-btn {
     background: transparent;
     border: 1px solid #e0e0e0;
@@ -564,13 +614,20 @@ mark.search-highlight {
   .search-result-item .secondary { font-size: 12px; }
 }
 
-/* Quick links */
+/* ===========================================
+   QUICK LINKS AND TABLES STYLES
+   ===========================================
+   Quick access links and two-column table layouts.
+   Used for important links page and other tabular data.
+   =========================================== */
+
+/* Quick access links styling */
 .quick-links { padding: 1rem 0; }
 .quick-links-grid { display:flex; flex-wrap:wrap; gap: 0.75rem; }
 .quick-link { display:inline-flex; align-items:center; gap:0.5rem; background:white; border:1px solid #e0e0e0; padding:0.5rem 0.75rem; border-radius:8px; color:#333; text-decoration:none; }
 .quick-link:hover { border-color:#cfd8dc; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
-/* Two-column links table */
+/* Two-column links table for important links page */
 .links-table {
   background: white;
   border-radius: 12px;
@@ -643,8 +700,12 @@ mark.search-highlight {
   text-decoration: underline;
 }
 
+/* ===========================================
+   UTILITY AND FIXES
+   ===========================================
+   Z-index fixes and overflow adjustments for proper display.
+   =========================================== */
 
-/* Compact grid already set earlier */
 /* Fix: ensure search suggestions dropdown appears above and is not clipped */
 .hero { overflow: visible !important; }
 .hero-search .search-results { z-index: 3000 !important; }

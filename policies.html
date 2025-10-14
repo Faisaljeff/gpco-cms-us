@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ===========================================
+       Policies Page - GPCO CMS US
+       ===========================================
+       This page displays company policies and procedures
+       with easy-to-edit content area for non-programmers.
+       Features:
+       - Two-column table layout (Policy Name, Link)
+       - Easy content editing section
+       - Self-hosted fonts and icons
+       - XSS protection for data display
+       =========================================== -->
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Company Policies - GPCO CMS US</title>
+  
+  <!-- Stylesheets: Self-hosted fonts and icons for security -->
+  <link rel="stylesheet" href="Assets/styles.css" />
+  <link rel="stylesheet" href="fonts/inter-font.css">
+  <link rel="stylesheet" href="fonts/font-awesome-self-hosted.css">
+  
+  <style>
+    /* ===========================================
+       POLICIES PAGE STYLING
+       ===========================================
+       Clean, professional layout for policy display
+       =========================================== */
+    .policies-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #006fcf;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #006fcf;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-subtitle {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .info-note {
+      background: #f8f9fa;
+      border: 1px solid #e6eef5;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+
+    /* ===========================================
+       POLICIES TABLE STYLING
+       ===========================================
+       Two-column table for policy display
+       =========================================== */
+    .policies-table {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      border: 1px solid #e6eef5;
+      margin-top: 1rem;
+    }
+
+    .table-header {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      background: #006fcf;
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.9rem;
+    }
+
+    .header-cell {
+      padding: 1rem 1.5rem;
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .header-cell:last-child {
+      border-right: none;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      border-bottom: 1px solid #e6eef5;
+      transition: background-color 0.2s ease;
+    }
+
+    .table-row:last-child {
+      border-bottom: none;
+    }
+
+    .table-row:hover {
+      background-color: #f8fafc;
+    }
+
+    .table-cell {
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid #e6eef5;
+    }
+
+    .table-cell:last-child {
+      border-right: none;
+    }
+
+    .policy-name {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .policy-link {
+      color: #006fcf;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .policy-link:hover {
+      color: #004a8f;
+      text-decoration: underline;
+    }
+
+    /* ===========================================
+       LOADING AND ERROR STATES
+       ===========================================
+       Styling for loading spinner and error messages
+       =========================================== */
+    .loading-container {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #006fcf;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error-container {
+      text-align: center;
+      padding: 3rem;
+      color: #dc3545;
+    }
+
+    .error-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Hide table initially until content is loaded */
+    #policiesTable {
+      display: none;
+    }
+
+    /* Show table when content is loaded */
+    #policiesTable.loaded {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- ===========================================
+       HEADER SECTION
+       ===========================================
+       Standard header with navigation back to home page
+       =========================================== -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <h1><a href="index.html" style="text-decoration: none; color: inherit;">GPCO CMS US</a></h1>
+      </div>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- ===========================================
+         POLICIES CONTAINER
+         ===========================================
+         Main content area for policies display
+         =========================================== -->
+    <div class="policies-container">
+      <div class="page-header">
+        <h1 class="page-title">Company Policies</h1>
+        <p class="page-subtitle">Access to all company policies and procedures</p>
+      </div>
+
+      <div class="info-note">
+        This page displays all company policies and procedures for easy access and reference.
+      </div>
+
+
+      <!-- ===========================================
+           POLICIES TABLE SECTION
+           ===========================================
+           Dynamic table that loads data from JavaScript
+           =========================================== -->
+      <section class="quick-links">
+        <div class="section-header">
+          <h2>Policies & Procedures</h2>
+          <p>Click on any policy to view the full document</p>
+        </div>
+        
+        <!-- Main table container - hidden until data loads -->
+        <div class="policies-table" id="policiesTable">
+          <div class="table-header">
+            <div class="header-cell">Policy Name</div>
+            <div class="header-cell">Link</div>
+          </div>
+          <div id="policiesContent">
+            <!-- Content will be loaded from JavaScript -->
+          </div>
+        </div>
+        
+        <!-- Loading state with spinner -->
+        <div id="loadingContainer" class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Loading policies...</p>
+        </div>
+        
+        <!-- Error state for failed loading -->
+        <div id="errorContainer" class="error-container" style="display: none;">
+          <div class="error-icon">⚠️</div>
+          <h3>Error Loading Policies</h3>
+          <p>Unable to load the policies. Please try refreshing the page.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===========================================
+       JAVASCRIPT FILES
+       ===========================================
+       script.js: Main functionality and navigation
+       time-display.js: EST/IST time display
+       =========================================== -->
+  <script src="Assets/script.js"></script>
+  <script src="Assets/time-display.js"></script>
+  
+  <script>
+    /* ===========================================
+       POLICIES DATA AND DISPLAY
+       ===========================================
+       Easy-to-edit content area for non-programmers.
+       Simply add/remove policies in the array below.
+       =========================================== */
+
+    // ===========================================
+    // EASY CONTENT EDITING AREA
+    // ===========================================
+    // To add new policies, simply copy this format:
+    // {name: "Policy Name", link: "https://example.com"},
+    // and add it to the array below. Separate each policy with a comma.
+    
+    const policiesData = [
+      {name: "Employee Handbook", link: "https://example.com/employee-handbook"},
+      {name: "Code of Conduct", link: "https://example.com/code-of-conduct"},
+      {name: "Anti-Discrimination Policy", link: "https://example.com/anti-discrimination"},
+      {name: "Workplace Safety Guidelines", link: "https://example.com/safety-guidelines"},
+      {name: "Remote Work Policy", link: "https://example.com/remote-work"},
+      {name: "Data Protection & Privacy", link: "https://example.com/data-protection"},
+      {name: "IT Security Policy", link: "https://example.com/it-security"},
+      {name: "Expense Reimbursement", link: "https://example.com/expense-reimbursement"},
+      {name: "Travel Policy", link: "https://example.com/travel-policy"},
+      {name: "Performance Review Process", link: "https://example.com/performance-review"},
+      {name: "Leave & Time Off Policy", link: "https://example.com/leave-policy"},
+      {name: "Training & Development", link: "https://example.com/training-development"},
+      {name: "Whistleblower Protection", link: "https://example.com/whistleblower"},
+      {name: "Environmental Policy", link: "https://example.com/environmental"},
+      {name: "Quality Management System", link: "https://example.com/quality-management"}
+    ];
+
+    // ===========================================
+    // DISPLAY FUNCTIONS
+    // ===========================================
+
+    /**
+     * Display the policies data in the table
+     * @param {Array} policies - Array of policy objects
+     */
+    function displayPolicies(policies) {
+      const policiesContent = document.getElementById('policiesContent');
+      
+      // Clear existing content
+      policiesContent.innerHTML = '';
+
+      // Create table rows for each policy with XSS protection
+      policies.forEach(policy => {
+        if (policy.name && policy.link) {
+          const tableRow = document.createElement('div');
+          tableRow.className = 'table-row';
+          
+          // Create table row HTML with escaped content
+          tableRow.innerHTML = `
+            <div class="table-cell policy-name">${escapeHtml(policy.name)}</div>
+            <div class="table-cell">
+              <a href="${escapeHtml(policy.link)}" target="_blank" rel="noopener noreferrer" class="policy-link">
+                ${escapeHtml(policy.link)}
+              </a>
+            </div>
+          `;
+          
+          policiesContent.appendChild(tableRow);
+        }
+      });
+
+      // Update section description with count
+      if (policies.length > 0) {
+        const sectionDescription = document.querySelector('.section-header p');
+        if (sectionDescription) {
+          sectionDescription.textContent = `${policies.length} policies available`;
+        }
+      }
+    }
+
+    /**
+     * Load and display policies
+     * Handles loading states, error states, and data display
+     */
+    function loadPolicies() {
+      const loadingContainer = document.getElementById('loadingContainer');
+      const errorContainer = document.getElementById('errorContainer');
+      const policiesTable = document.getElementById('policiesTable');
+
+      try {
+        // Show loading state
+        loadingContainer.style.display = 'block';
+        errorContainer.style.display = 'none';
+        policiesTable.style.display = 'none';
+
+        // Simulate loading delay for better UX
+        setTimeout(() => {
+          // Display the data
+          displayPolicies(policiesData);
+
+          // Hide loading and show table
+          loadingContainer.style.display = 'none';
+          policiesTable.style.display = 'block';
+          policiesTable.classList.add('loaded');
+        }, 500);
+
+      } catch (error) {
+        console.error('Error loading policies:', error);
+        
+        // Show error state
+        loadingContainer.style.display = 'none';
+        errorContainer.style.display = 'block';
+        policiesTable.style.display = 'none';
+      }
+    }
+
+    /**
+     * XSS Protection: Escape HTML to prevent cross-site scripting
+     * @param {string} text - Text to escape
+     * @returns {string} - Escaped HTML
+     */
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Initialize policies loading when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      loadPolicies();
+    });
+  </script>
+</body>
+</html>

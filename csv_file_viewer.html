@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CSV Data Dashboard</title>
-<script src="./papaparse.min.js"></script>
+<script src="Assets/papaparse.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; min-height: 100vh; }
@@ -79,7 +79,7 @@ tr:hover { background: #f8f9fa; }
 </div>
 
 <script>
-const DATA_FILE_URL = './sample_webpage_csv.csv'; // CSV in same folder
+const DATA_FILE_URL = './Database/sample_webpage_csv.csv'; // CSV in Database folder
 
 function showMessage(message, type) {
     const msgDiv = document.getElementById('message');
@@ -122,7 +122,7 @@ function displayData(data) {
     data.forEach(row => {
         html += '<tr>';
         Object.values(row).forEach(val => html += `<td>${val}</td>`);
-        html += '</tr>';
+        html += '</tr>';image.png
     });
 
     html += '</table></div>';

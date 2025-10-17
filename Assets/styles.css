@@ -10,9 +10,17 @@
    - Dashboard Cards and Grids
    - Search Functionality
    - Links and Tables
+   - Time Display (Global)
    - Responsive Design
    - Utility Classes
    =========================================== */
+
+/* ===========================================
+   TIME DISPLAY STYLES (GLOBAL)
+   ===========================================
+   Imported from time-display.css for global availability
+   =========================================== */
+@import url('time-display.css');
 
 /* ===========================================
    RESET AND BASE STYLES

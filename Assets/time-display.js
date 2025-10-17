@@ -171,25 +171,42 @@
      * Creates the display element and starts the update interval
      */
     function initTimeDisplay() {
+        console.log('🕐 initTimeDisplay called');
+        
         // Check if time display already exists to prevent duplicates
         if (document.getElementById('time-display')) {
+            console.log('🕐 Time display already exists, skipping');
             return;
         }
         
+        console.log('🕐 Creating time display element');
         const timeDisplay = createTimeDisplay();
+        console.log('🕐 Time display element created:', timeDisplay);
+        
+        console.log('🕐 Adding time display to document body');
         document.body.appendChild(timeDisplay);
+        console.log('🕐 Time display added to DOM');
         
         // Update immediately
+        console.log('🕐 Updating time display');
         updateTime();
         
         // Update every second for real-time display
         setInterval(updateTime, 1000);
+        console.log('🕐 Time display interval started');
     }
     
     // Initialize when DOM is ready
+    console.log('🕐 Time display script loaded, document ready state:', document.readyState);
+    
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initTimeDisplay);
+        console.log('🕐 Document still loading, waiting for DOMContentLoaded');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🕐 DOMContentLoaded fired, initializing time display');
+            initTimeDisplay();
+        });
     } else {
+        console.log('🕐 Document already loaded, initializing time display immediately');
         initTimeDisplay();
     }
 })();

@@ -128,23 +128,6 @@
         return timeContainer;
     }
     
-    /**
-     * Format time with timezone offset
-     * @param {Date} date - The date object
-     * @param {number} offsetHours - Timezone offset in hours
-     * @returns {string} - Formatted time string (HH:MM:SS)
-     */
-    function formatTime(date, offsetHours) {
-        const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
-        const targetTime = new Date(utc + (offsetHours * 3600000));
-        
-        return targetTime.toLocaleTimeString('en-US', {
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-    }
     
     /**
      * Update the time display with current EST and IST times
@@ -152,12 +135,22 @@
     function updateTime() {
         const now = new Date();
         
-        // EST is UTC-5 (or UTC-4 during daylight saving)
-        // For simplicity, using UTC-5 (you can adjust this)
-        const estTime = formatTime(now, -5);
+        // Use browser's built-in timezone handling (same as working simple test)
+        const estTime = now.toLocaleTimeString('en-US', {
+            timeZone: 'America/New_York',
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
         
-        // IST is UTC+5:30
-        const istTime = formatTime(now, 5.5);
+        const istTime = now.toLocaleTimeString('en-US', {
+            timeZone: 'Asia/Kolkata',
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
         
         const estElement = document.getElementById('est-time');
         const istElement = document.getElementById('ist-time');

@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Pyodide + Matplotlib Demo</title>
-  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+  <!-- Content Security Policy: Prevents XSS attacks and controls resource loading -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+  <title>Pyodide + Matplotlib Demo - Amex GPCO</title>
+  <!-- Pyodide removed for security - external CDN dependency -->
   <style>
     body {
       font-family: system-ui, sans-serif;
@@ -33,66 +35,44 @@
   </style>
 </head>
 <body>
+  <!-- ===========================================
+       HEADER SECTION
+       ===========================================
+       Standard header with navigation back to home page
+       =========================================== -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <h1><a href="index.html" style="text-decoration: none; color: inherit;">Amex GPCO</a></h1>
+      </div>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
   <h1>Pyodide + Matplotlib Chart Demo</h1>
   <div id="loading">⏳ Loading Python environment...</div>
   <div id="plot-container"></div>
 
   <script type="text/javascript">
-    async function main() {
+    // Security Notice: Pyodide removed for corporate compliance
+    document.addEventListener('DOMContentLoaded', function() {
       const loadingDiv = document.getElementById("loading");
-      try {
-        // Step 1: Load Pyodide
-        loadingDiv.textContent = "🚀 Initializing Pyodide...";
-        const pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/" });
-
-        // Step 2: Load matplotlib & numpy
-        loadingDiv.textContent = "📦 Loading Python packages (matplotlib, numpy)...";
-        await pyodide.loadPackage("micropip");
-        await pyodide.runPythonAsync(`
-import micropip
-await micropip.install(["matplotlib", "numpy"])
-        `);
-
-        // Step 3: Generate chart
-        loadingDiv.textContent = "🎨 Generating chart...";
-        const pngBase64 = await pyodide.runPythonAsync(`
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import numpy as np
-from io import BytesIO
-import base64
-
-x = np.linspace(0, 2 * np.pi, 200)
-y = np.sin(x) * np.cos(2 * x)
-
-plt.figure(figsize=(6,4))
-plt.plot(x, y, label='sin(x)*cos(2x)', color='purple')
-plt.title("Pyodide + Matplotlib Demo")
-plt.xlabel("x-axis")
-plt.ylabel("y-axis")
-plt.legend()
-plt.grid(True)
-
-buf = BytesIO()
-plt.savefig(buf, format='png', bbox_inches='tight')
-buf.seek(0)
-base64.b64encode(buf.read()).decode('utf-8')
-        `);
-
-        // Step 4: Display the image
-        const img = document.createElement("img");
-        img.src = "data:image/png;base64," + pngBase64;
-        document.getElementById("plot-container").appendChild(img);
-        loadingDiv.remove();
-
-      } catch (err) {
-        loadingDiv.textContent = "❌ Error: " + err;
-        console.error(err);
-      }
-    }
-
-    main();
+      const plotContainer = document.getElementById("plot-container");
+      
+      loadingDiv.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: #6b7280;">
+          <h3>🔒 Security Notice</h3>
+          <p>Python/Matplotlib functionality has been disabled for corporate security compliance.</p>
+          <p>External CDN dependencies have been removed to ensure data security.</p>
+          <br>
+          <p><strong>This page is now secure for corporate servers.</strong></p>
+        </div>
+      `;
+    });
   </script>
 </body>
 </html>

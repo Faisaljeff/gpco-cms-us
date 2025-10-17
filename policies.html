@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <!-- ===========================================
-       Policies Page - GPCO CMS US
+       Policies Page - Amex GPCO
        ===========================================
        This page displays company policies and procedures
        with easy-to-edit content area for non-programmers.
@@ -15,7 +15,9 @@
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Company Policies - GPCO CMS US</title>
+  <!-- Content Security Policy: Prevents XSS attacks and controls resource loading -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+  <title>Company Policies - Amex GPCO</title>
   
   <!-- Stylesheets: Self-hosted fonts and icons for security -->
   <link rel="stylesheet" href="Assets/styles.css" />
@@ -204,7 +206,7 @@
   <header class="header">
     <div class="container">
       <div class="logo">
-        <h1><a href="index.html" style="text-decoration: none; color: inherit;">GPCO CMS US</a></h1>
+        <h1><a href="index.html" style="text-decoration: none; color: inherit;">Amex GPCO</a></h1>
       </div>
       <nav class="nav">
         <ul class="nav-list">

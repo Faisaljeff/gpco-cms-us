@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overtime Schedule</title>
+  <!-- Content Security Policy: Prevents XSS attacks and controls resource loading -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+  <title>Overtime Schedule - Amex GPCO</title>
   <link rel="stylesheet" href="Assets/styles.css" />
   <style>
     .ot-container { max-width: 95%; margin: 30px auto; padding: 0 16px; }
@@ -40,6 +42,24 @@
   </style>
 </head>
 <body>
+  <!-- ===========================================
+       HEADER SECTION
+       ===========================================
+       Standard header with navigation back to home page
+       =========================================== -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <h1><a href="index.html" style="text-decoration: none; color: inherit;">Amex GPCO</a></h1>
+      </div>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
   <div class="ot-container">
     <div class="ot-header">
       <h1>Overtime Schedule</h1>

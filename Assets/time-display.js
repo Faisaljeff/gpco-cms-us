@@ -1,7 +1,7 @@
 /* ===========================================
    Time Display Module - GPCO CMS US
    ===========================================
-   Displays current EST and IST time in the top-left corner
+   Displays current EST and IST time in the top-right corner
    of all pages. Features:
    - No CDN dependencies (pure JavaScript)
    - Real-time updates every second
@@ -23,7 +23,7 @@
         timeContainer.style.cssText = `
             position: fixed;
             top: 15px;
-            left: 20px;
+            right: 20px;
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(0, 111, 207, 0.3);
             border-radius: 8px;
@@ -34,7 +34,7 @@
             backdrop-filter: blur(8px);
             font-variant-numeric: tabular-nums;
             transition: all 0.3s ease;
-            animation: slideInFromLeft 0.5s ease-out;
+            animation: slideInFromRight 0.5s ease-out;
         `;
         
         // Add CSS animations and hover effects
@@ -42,9 +42,9 @@
             const style = document.createElement('style');
             style.id = 'time-display-styles';
             style.textContent = `
-                @keyframes slideInFromLeft {
+                @keyframes slideInFromRight {
                     from {
-                        transform: translateX(-100%);
+                        transform: translateX(100%);
                         opacity: 0;
                     }
                     to {
